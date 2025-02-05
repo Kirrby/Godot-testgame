@@ -1,0 +1,183 @@
+[gd_scene load_steps=22 format=3 uid="uid://ct7dmm660glad"]
+
+[ext_resource type="Script" uid="uid://dnxb02nyykw0h" path="res://main_scene.gd" id="1_5crlr"]
+[ext_resource type="PackedScene" uid="uid://bxlcxv3mo8sfo" path="res://bowl.tscn" id="1_rpqi1"]
+[ext_resource type="Script" uid="uid://8uuyafc3kxo3" path="res://ball.gd" id="1_x4av3"]
+[ext_resource type="Script" uid="uid://drpwuug55g3es" path="res://bowl_U.gd" id="2_uxrcv"]
+[ext_resource type="Script" uid="uid://dkpdgop13p7xk" path="res://bowl_R.gd" id="3_rf2cd"]
+[ext_resource type="Texture2D" uid="uid://bidcv12h5lpr4" path="res://backgrand.png" id="6_a814b"]
+[ext_resource type="Texture2D" uid="uid://crry2jy05esy6" path="res://ball.png" id="7_5crlr"]
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_1305s"]
+b = Vector2(0, 600)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_3mqji"]
+b = Vector2(1000, 0)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_x4av3"]
+a = Vector2(0, 600)
+b = Vector2(1000, 600)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_rpqi1"]
+a = Vector2(1000, 600)
+b = Vector2(1000, 0)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_1305s"]
+radius = 19.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hbc2u"]
+size = Vector2(100, 100)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rf2cd"]
+size = Vector2(310, 80.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_a814b"]
+size = Vector2(285, 81.375)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5crlr"]
+size = Vector2(119, 120)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_torvr"]
+size = Vector2(200, 80)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_p5x2j"]
+size = Vector2(21, 329)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8xkvn"]
+size = Vector2(134, 108)
+
+[sub_resource type="LabelSettings" id="LabelSettings_5crlr"]
+font_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_hbc2u"]
+font_size = 160
+font_color = Color(0, 0, 0, 1)
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_5crlr")
+
+[node name="RigidBody2D" type="RigidBody2D" parent="."]
+freeze = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D"]
+shape = SubResource("SegmentShape2D_1305s")
+
+[node name="RigidBody2D2" type="RigidBody2D" parent="."]
+freeze = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D2"]
+shape = SubResource("SegmentShape2D_3mqji")
+
+[node name="RigidBody2D3" type="RigidBody2D" parent="."]
+freeze = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D3"]
+shape = SubResource("SegmentShape2D_x4av3")
+
+[node name="RigidBody2D4" type="RigidBody2D" parent="."]
+freeze = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D4"]
+shape = SubResource("SegmentShape2D_rpqi1")
+
+[node name="Bowl" parent="." groups=["弯道"] instance=ExtResource("1_rpqi1")]
+position = Vector2(179, 300)
+
+[node name="Bowl2" parent="." groups=["弯道"] instance=ExtResource("1_rpqi1")]
+position = Vector2(550, 500)
+script = ExtResource("2_uxrcv")
+
+[node name="Bowl3" parent="." groups=["弯道"] instance=ExtResource("1_rpqi1")]
+position = Vector2(821, 300)
+script = ExtResource("3_rf2cd")
+
+[node name="Backgrand" type="Sprite2D" parent="."]
+position = Vector2(500, 299.75)
+scale = Vector2(1.04058, 1.03899)
+texture = ExtResource("6_a814b")
+
+[node name="Ball" type="RigidBody2D" parent="."]
+position = Vector2(470, 91)
+can_sleep = false
+lock_rotation = true
+continuous_cd = 2
+contact_monitor = true
+max_contacts_reported = 1
+script = ExtResource("1_x4av3")
+
+[node name="Shape" type="CollisionShape2D" parent="Ball"]
+shape = SubResource("CircleShape2D_1305s")
+
+[node name="Sprite2D" type="Sprite2D" parent="Ball"]
+position = Vector2(6.67572e-06, -4.76837e-06)
+scale = Vector2(0.0651131, 0.0651131)
+texture = ExtResource("7_5crlr")
+
+[node name="StaticBody2D6" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D6"]
+position = Vector2(800, 184)
+shape = SubResource("RectangleShape2D_hbc2u")
+
+[node name="StaticBody2D3" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D3"]
+position = Vector2(296, 519)
+shape = SubResource("RectangleShape2D_rf2cd")
+
+[node name="StaticBody2D4" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D4"]
+position = Vector2(792.5, 519.313)
+shape = SubResource("RectangleShape2D_a814b")
+one_way_collision_margin = 0.0
+
+[node name="StaticBody2D5" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D5"]
+position = Vector2(550, 288)
+shape = SubResource("RectangleShape2D_5crlr")
+
+[node name="StaticBody2D7" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D7"]
+position = Vector2(239, 226)
+shape = SubResource("RectangleShape2D_torvr")
+
+[node name="Area2D2" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D2"]
+position = Vector2(0.5, 154.5)
+shape = SubResource("RectangleShape2D_p5x2j")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(550, 288)
+shape = SubResource("RectangleShape2D_8xkvn")
+
+[node name="Area2D3" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D3"]
+position = Vector2(1000, 164)
+shape = SubResource("RectangleShape2D_p5x2j")
+
+[node name="UITimerLabel" type="Label" parent="."]
+offset_right = 40.0
+offset_bottom = 23.0
+label_settings = SubResource("LabelSettings_5crlr")
+
+[node name="UIGameOverLabel" type="Label" parent="."]
+offset_right = 1000.0
+offset_bottom = 600.0
+label_settings = SubResource("LabelSettings_hbc2u")
+horizontal_alignment = 1
+
+[connection signal="body_entered" from="Ball" to="Ball" method="_on_body_entered"]
+[connection signal="body_exited" from="Ball" to="Ball" method="_on_body_exited"]
+[connection signal="body_entered" from="Area2D2" to="Ball" method="_on_area_2d_2_body_entered"]
+[connection signal="body_exited" from="Area2D2" to="Ball" method="_on_area_2d_2_body_exited"]
+[connection signal="body_entered" from="Area2D" to="Ball" method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="Area2D" to="Ball" method="_on_area_2d_body_exited"]
+[connection signal="body_entered" from="Area2D3" to="Ball" method="_on_area_2d_2_body_entered"]
+[connection signal="body_exited" from="Area2D3" to="Ball" method="_on_area_2d_2_body_exited"]
