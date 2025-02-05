@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://bxlcxv3mo8sfo"]
+
+[ext_resource type="Script" uid="uid://cat2ucoqxt7ur" path="res://bowl.gd" id="1_l4bwr"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_k71i8"]
+friction = 0.0
+
+[node name="Bowl" type="RigidBody2D"]
+physics_material_override = SubResource("PhysicsMaterial_k71i8")
+freeze = true
+script = ExtResource("1_l4bwr")

@@ -1,0 +1,29 @@
+[gd_scene load_steps=4 format=3 uid="uid://b1s02ccrqapub"]
+
+[ext_resource type="Texture2D" uid="uid://3d8amvo3s64o" path="res://icon.svg" id="1_d5gmh"]
+
+[sub_resource type="GDScript" id="GDScript_d5gmh"]
+script/source = "extends Area2D
+
+func _ready():
+	# 设置金币的碰撞检测
+	connect(\"body_entered\", _on_coin_body_entered)
+
+func _on_body_entered(body: Node):
+	# 当有物体进入金币区域时，发射信号
+	emit_signal(\"body_entered\", body)
+"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_0t63x"]
+radius = 32.0
+
+[node name="Coin" type="Area2D"]
+script = SubResource("GDScript_d5gmh")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_0t63x")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(3.8147e-06, -1.90735e-06)
+scale = Vector2(0.3125, 0.3125)
+texture = ExtResource("1_d5gmh")
