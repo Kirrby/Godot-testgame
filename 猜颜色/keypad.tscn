@@ -1,0 +1,114 @@
+[gd_scene load_steps=4 format=3 uid="uid://c7k5bwe8l5ta8"]
+
+[ext_resource type="Script" uid="uid://c22qa3u8nix32" path="res://keypad.gd" id="1_0sp1t"]
+[ext_resource type="Texture2D" uid="uid://brj5g2bkp5txv" path="res://assets/light_off.png" id="2_4swqm"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_4swqm"]
+font_size = 64
+
+[node name="keypad" type="Node2D"]
+script = ExtResource("1_0sp1t")
+
+[node name="Buttons" type="GridContainer" parent="."]
+offset_left = 472.0
+offset_top = 192.0
+offset_right = 535.0
+offset_bottom = 333.0
+scale = Vector2(3, 3)
+columns = 3
+
+[node name="Button" type="Button" parent="Buttons"]
+layout_mode = 2
+text = "1"
+expand_icon = true
+
+[node name="Button2" type="Button" parent="Buttons"]
+layout_mode = 2
+text = "2"
+
+[node name="Button3" type="Button" parent="Buttons"]
+layout_mode = 2
+text = "3"
+
+[node name="Button4" type="Button" parent="Buttons"]
+layout_mode = 2
+text = "4"
+
+[node name="Button5" type="Button" parent="Buttons"]
+layout_mode = 2
+text = "5"
+
+[node name="Button6" type="Button" parent="Buttons"]
+layout_mode = 2
+text = "6"
+
+[node name="Button7" type="Button" parent="Buttons"]
+layout_mode = 2
+text = "7"
+
+[node name="Button8" type="Button" parent="Buttons"]
+layout_mode = 2
+text = "8"
+
+[node name="Button9" type="Button" parent="Buttons"]
+layout_mode = 2
+text = "9"
+
+[node name="Button10" type="Button" parent="Buttons"]
+layout_mode = 2
+text = "C"
+
+[node name="Button11" type="Button" parent="Buttons"]
+layout_mode = 2
+text = "0"
+
+[node name="Button12" type="Button" parent="Buttons"]
+layout_mode = 2
+text = "<"
+
+[node name="Display" type="Label" parent="."]
+offset_left = 480.0
+offset_top = 112.0
+offset_right = 656.0
+offset_bottom = 200.0
+text = "0000"
+label_settings = SubResource("LabelSettings_4swqm")
+horizontal_alignment = 1
+
+[node name="Lights" type="Node2D" parent="."]
+
+[node name="Light1" type="TextureRect" parent="Lights"]
+offset_left = 432.0
+offset_top = 64.0
+offset_right = 480.0
+offset_bottom = 112.0
+texture = ExtResource("2_4swqm")
+expand_mode = 1
+
+[node name="Light2" type="TextureRect" parent="Lights"]
+offset_left = 504.0
+offset_top = 64.0
+offset_right = 552.0
+offset_bottom = 112.0
+texture = ExtResource("2_4swqm")
+expand_mode = 1
+
+[node name="Light3" type="TextureRect" parent="Lights"]
+offset_left = 576.0
+offset_top = 64.0
+offset_right = 624.0
+offset_bottom = 112.0
+texture = ExtResource("2_4swqm")
+expand_mode = 1
+
+[node name="Light4" type="TextureRect" parent="Lights"]
+offset_left = 648.0
+offset_top = 64.0
+offset_right = 696.0
+offset_bottom = 112.0
+texture = ExtResource("2_4swqm")
+expand_mode = 1
+
+[node name="Label" type="Label" parent="."]
+offset_right = 192.0
+offset_bottom = 64.0
