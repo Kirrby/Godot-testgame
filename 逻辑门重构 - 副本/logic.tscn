@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://d232nn871h8i4"]
+
+[ext_resource type="Script" uid="uid://pbk4jgt510up" path="res://logic.gd" id="1_1lcd8"]
+[ext_resource type="Texture2D" uid="uid://d3rraq6568rcq" path="res://icon.svg" id="1_ll6u2"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yiawi"]
+size = Vector2(128, 128)
+
+[node name="logic" type="Node2D"]
+script = ExtResource("1_1lcd8")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_ll6u2")
+
+[node name="area2d" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="area2d"]
+shape = SubResource("RectangleShape2D_yiawi")
+
+[connection signal="area_entered" from="area2d" to="." method="_on_area_2d_area_entered"]
+[connection signal="area_exited" from="area2d" to="." method="_on_area_2d_area_exited"]

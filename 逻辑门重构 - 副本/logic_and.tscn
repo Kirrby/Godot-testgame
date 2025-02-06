@@ -1,0 +1,13 @@
+[gd_scene load_steps=4 format=3 uid="uid://cqccabnti4myf"]
+
+[ext_resource type="PackedScene" uid="uid://d232nn871h8i4" path="res://logic.tscn" id="1_rn0ld"]
+[ext_resource type="Script" uid="uid://c5vvpvdx06ufq" path="res://logic_and.gd" id="2_rqssh"]
+[ext_resource type="Texture2D" uid="uid://m5ambotbf0r7" path="res://资源/与门.png" id="3_s7g1v"]
+
+[node name="logic_and" instance=ExtResource("1_rn0ld")]
+script = ExtResource("2_rqssh")
+
+[node name="Sprite2D" parent="." index="0"]
+position = Vector2(-3.8147e-06, -3.8147e-06)
+scale = Vector2(1.20755, 1.20755)
+texture = ExtResource("3_s7g1v")

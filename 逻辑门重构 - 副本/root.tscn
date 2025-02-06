@@ -1,0 +1,51 @@
+[gd_scene load_steps=6 format=3 uid="uid://wd6a17rbmarb"]
+
+[ext_resource type="Script" uid="uid://cp144t8dk0l6w" path="res://root.gd" id="1_iodab"]
+[ext_resource type="PackedScene" uid="uid://cu3o5pcleay1l" path="res://light.tscn" id="4_tlin1"]
+[ext_resource type="PackedScene" uid="uid://cqccabnti4myf" path="res://logic_and.tscn" id="5_3t0dn"]
+[ext_resource type="PackedScene" uid="uid://clrtydb2vwjso" path="res://logic_inverter.tscn" id="6_2tkac"]
+[ext_resource type="PackedScene" uid="uid://debmbtsrgpc5v" path="res://logic_or.tscn" id="6_bc2xp"]
+
+[node name="root" type="Node2D"]
+script = ExtResource("1_iodab")
+
+[node name="light" parent="." instance=ExtResource("4_tlin1")]
+position = Vector2(1536, 448)
+
+[node name="Button" type="Button" parent="."]
+visible = false
+offset_left = 1208.0
+offset_right = 1600.0
+offset_bottom = 120.0
+
+[node name="logic_Inverter" parent="." instance=ExtResource("6_2tkac")]
+position = Vector2(384, 232)
+
+[node name="logic_or" parent="." instance=ExtResource("6_bc2xp")]
+position = Vector2(576, 160)
+
+[node name="logic_Inverter2" parent="." instance=ExtResource("6_2tkac")]
+position = Vector2(384, 392)
+
+[node name="logic_or2" parent="." instance=ExtResource("6_bc2xp")]
+position = Vector2(728, 312)
+
+[node name="logic_or4" parent="." instance=ExtResource("6_bc2xp")]
+position = Vector2(896, 448)
+
+[node name="logic_Inverter3" parent="." instance=ExtResource("6_2tkac")]
+position = Vector2(384, 744)
+
+[node name="logic_or3" parent="." instance=ExtResource("6_bc2xp")]
+position = Vector2(576, 640)
+
+[node name="logic_and" parent="." instance=ExtResource("5_3t0dn")]
+position = Vector2(1344, 448)
+
+[node name="logic_Inverter4" parent="." instance=ExtResource("6_2tkac")]
+position = Vector2(1088, 320)
+
+[node name="logic_Inverter5" parent="." instance=ExtResource("6_2tkac")]
+position = Vector2(768, 640)
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

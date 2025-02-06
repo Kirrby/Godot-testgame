@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=3 uid="uid://clrtydb2vwjso"]
+
+[ext_resource type="PackedScene" uid="uid://d232nn871h8i4" path="res://logic.tscn" id="1_ufdex"]
+[ext_resource type="Texture2D" uid="uid://46qiblasloh5" path="res://资源/非门.png" id="2_iw5u2"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_wfjki"]
+
+[node name="logic_Inverter" instance=ExtResource("1_ufdex")]
+
+[node name="Sprite2D" parent="." index="0"]
+position = Vector2(2.38419e-06, -2.86102e-06)
+scale = Vector2(1.19626, 2.37037)
+texture = ExtResource("2_iw5u2")
+
+[node name="input" type="Area2D" parent="." index="2"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="input" index="0"]
+position = Vector2(-64, 0)
+shape = SubResource("CircleShape2D_wfjki")
+
+[node name="output" type="Area2D" parent="." index="3"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="output" index="0"]
+position = Vector2(64, 0)
+shape = SubResource("CircleShape2D_wfjki")

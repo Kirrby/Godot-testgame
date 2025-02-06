@@ -1,0 +1,43 @@
+[gd_scene load_steps=8 format=3 uid="uid://vrgiycf3x2wg"]
+
+[ext_resource type="Script" path="res://begin.gd" id="1_1j6d3"]
+[ext_resource type="Script" path="res://line_2d.gd" id="1_blhi7"]
+[ext_resource type="Script" path="res://line.gd" id="1_pgn4q"]
+[ext_resource type="Script" path="res://end.gd" id="2_2j6d4"]
+[ext_resource type="PackedScene" uid="uid://ij1bm1t0lgj5" path="res://check_button.tscn" id="5_737wh"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_cx2ek"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_3v0ie"]
+
+[node name="line" type="Node2D"]
+script = ExtResource("1_pgn4q")
+
+[node name="Line2D" type="Line2D" parent="."]
+points = PackedVector2Array(32, 40, 168, 40)
+joint_mode = 2
+begin_cap_mode = 1
+end_cap_mode = 1
+script = ExtResource("1_blhi7")
+
+[node name="begin" type="Area2D" parent="."]
+position = Vector2(32, 40)
+script = ExtResource("1_1j6d3")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="begin"]
+shape = SubResource("CircleShape2D_cx2ek")
+
+[node name="end" type="Area2D" parent="."]
+position = Vector2(168, 40)
+script = ExtResource("2_2j6d4")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="end"]
+shape = SubResource("CircleShape2D_3v0ie")
+
+[node name="CheckButton" parent="." instance=ExtResource("5_737wh")]
+offset_left = 96.0
+offset_top = 168.0
+offset_right = 140.0
+offset_bottom = 192.0
+
+[connection signal="body_entered" from="begin" to="." method="_on_begin_body_entered"]
