@@ -1,0 +1,10 @@
+ea4bc82a6ad023ab7ee23ee620429895
+::res://::1737551499
+black.png::CompressedTexture2D::8269919595822928770::1736412721::1736412721::1::::<><>::
+black_1.png::CompressedTexture2D::1545867067488128455::1736565411::1736565412::1::::<><>::
+blue.png::CompressedTexture2D::746121038545681727::1736412721::1736412721::1::::<><>::
+blue_1.png::CompressedTexture2D::6016980051856159923::1736565411::1736565412::1::::<><>::
+icon.svg::CompressedTexture2D::2042714466049490669::1736409054::1736409068::1::::<><>::
+rect.gd::GDScript::-1::1737543336::0::1::::<>Sprite2D<>::
+root.tscn::PackedScene::4055502671520084672::1737551494::0::1::::<><>::uid://4drhdnel166t::::res://icon.svg<>uid://dp3amq265r0py::::res://black.png<>res://sprite_2d.gd<>uid://wa3g7xnqt1v4::::res://black_1.png<>res://rect.gd
+sprite_2d.gd::GDScript::-1::1736584213::0::1::::<>Sprite2D<>::

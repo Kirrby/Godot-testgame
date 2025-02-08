@@ -1,0 +1,45 @@
+[gd_scene load_steps=6 format=3 uid="uid://bx1rsif7k6yh1"]
+
+[ext_resource type="Texture2D" uid="uid://4drhdnel166t" path="res://icon.svg" id="1_a7rww"]
+[ext_resource type="Texture2D" uid="uid://dp3amq265r0py" path="res://black.png" id="1_ftfa5"]
+[ext_resource type="Script" path="res://sprite_2d.gd" id="2_5jgnv"]
+[ext_resource type="Texture2D" uid="uid://wa3g7xnqt1v4" path="res://black_1.png" id="4_5lkxy"]
+[ext_resource type="Script" path="res://rect.gd" id="5_f3a4s"]
+
+[node name="root" type="Node2D"]
+
+[node name="backgrand" type="Sprite2D" parent="."]
+position = Vector2(576, 324)
+texture = ExtResource("1_ftfa5")
+
+[node name="rect" type="Sprite2D" parent="."]
+position = Vector2(440, 200)
+scale = Vector2(0.96875, 0.96875)
+texture = ExtResource("4_5lkxy")
+script = ExtResource("5_f3a4s")
+
+[node name="rect2" type="Sprite2D" parent="."]
+position = Vector2(408, 368)
+scale = Vector2(0.96875, 0.96875)
+texture = ExtResource("4_5lkxy")
+script = ExtResource("5_f3a4s")
+
+[node name="bone" type="Sprite2D" parent="."]
+position = Vector2(688, 216)
+scale = Vector2(0.664062, 0.664062)
+texture = ExtResource("1_a7rww")
+script = ExtResource("2_5jgnv")
+
+[node name="bone2" type="Sprite2D" parent="."]
+position = Vector2(688, 328)
+scale = Vector2(0.664062, 0.664062)
+texture = ExtResource("1_a7rww")
+script = ExtResource("2_5jgnv")
+
+[connection signal="drag_state_changed" from="bone" to="rect" method="_on_bone_drag_state_changed"]
+[connection signal="drag_state_changed" from="bone" to="rect2" method="_on_bone_drag_state_changed"]
+[connection signal="drag_state_changed" from="bone" to="bone" method="_on_drag_state_changed"]
+[connection signal="drag_state_changed" from="bone" to="bone2" method="_on_bone_drag_state_changed"]
+[connection signal="drag_state_changed" from="bone2" to="rect" method="_on_bone_2_drag_state_changed"]
+[connection signal="drag_state_changed" from="bone2" to="rect2" method="_on_bone_2_drag_state_changed"]
+[connection signal="drag_state_changed" from="bone2" to="bone2" method="_on_drag_state_changed"]
