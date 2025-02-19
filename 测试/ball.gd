@@ -13,18 +13,20 @@ var is_on_floor
 var is_on_U
 var dir
 var is_space_pressed = false
+var is_in_shape
 
 func _ready():
 	# 设置物理材质
-	var material = PhysicsMaterial.new()
-	material.friction = 0.0
-	material.bounce = 0.0
-	physics_material_override = material
+	var ball_material = PhysicsMaterial.new()
+	ball_material.friction = 0.0
+	ball_material.bounce = 0.0
+	physics_material_override = ball_material
 	initial_mechanical_energy = calculate_mechanical_energy()
 
-func _process(delta: float) -> void:
-	pass
+func _process(_delta: float) -> void:
 	#print(is_on_floor)
+	#print(normal)
+	pass
 
 func _physics_process(delta: float) -> void:
 	# 计算当前机械能
@@ -49,12 +51,12 @@ func _physics_process(delta: float) -> void:
 		physics_material_override.bounce = 0.0  # 恢复为无弹性碰撞
 
 func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("ui_select"): 
-		if is_on_floor:  # 按下空格键
+	if event.is_action_pressed("jump"):
+		if is_on_floor or is_in_shape:  # 按下空格键
 			var acceleration = normal * ACCELERATION_MAGNITUDE
 			apply_central_impulse(acceleration)
 		is_space_pressed = true
-	elif event.is_action_released("ui_select"):
+	elif event.is_action_released("jump"):
 		is_space_pressed = false
 
 func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
@@ -64,14 +66,14 @@ func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 		normal = collision_normal
 		# 你可以在这里处理碰撞法线信息
 
-func compensate_kinetic_energy(energy_loss: float) -> void:
+func compensate_kinetic_energy(current_energy_loss: float) -> void:
 	# 将损失的机械能补偿到动能中
 	# 动能公式：E = 0.5 * m * v^2
 	# 补偿后的动能：E_new = E_old + energy_loss
 	# 因此，新的速度 v_new = sqrt((2 * (E_old + energy_loss)) / m)
 	
 	var current_kinetic_energy = 0.5 * mass * linear_velocity.length_squared()
-	var new_kinetic_energy = current_kinetic_energy + energy_loss
+	var new_kinetic_energy = current_kinetic_energy + current_energy_loss
 	
 	# 计算新的速度大小
 	var new_speed = sqrt((2 * new_kinetic_energy) / mass)
@@ -104,23 +106,31 @@ func _on_body_exited(body: Node) -> void:
 	is_on_floor = false
 	pass # Replace with function body.
 
-func _on_area_2d_body_entered(body: Node2D) -> void:
-	is_on_floor = true
-	normal = -normal
+#func _on_area_2d_body_entered(body: Node2D) -> void:
+	#is_on_floor = true
+	#normal = -normal
+	#pass # Replace with function body.
+#
+#func _on_area_2d_body_exited(body: Node2D) -> void:
+	#is_on_floor = false
+	#normal = -normal
+	#pass # Replace with function body.
+#
+#
+#func _on_area_2d_2_body_entered(body: Node2D) -> void:
+	#is_on_floor = true
+	#pass # Replace with function body.
+#
+#
+#func _on_area_2d_2_body_exited(body: Node2D) -> void:
+	#is_on_floor = false
+	#pass # Replace with function body.
+
+func _on_area_2d_area_entered(_area: Area2D) -> void:
+	is_in_shape = true
 	pass # Replace with function body.
 
-func _on_area_2d_body_exited(body: Node2D) -> void:
-	is_on_floor = false
-	normal = -normal
-	pass # Replace with function body.
 
-
-func _on_area_2d_2_body_entered(body: Node2D) -> void:
-	is_on_floor = true
-	#print(normal)
-	pass # Replace with function body.
-
-
-func _on_area_2d_2_body_exited(body: Node2D) -> void:
-	is_on_floor = false
+func _on_area_2d_area_exited(_area: Area2D) -> void:
+	is_in_shape = false
 	pass # Replace with function body.

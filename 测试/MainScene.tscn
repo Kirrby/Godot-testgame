@@ -1,12 +1,11 @@
-[gd_scene load_steps=22 format=3 uid="uid://ct7dmm660glad"]
+[gd_scene load_steps=21 format=3 uid="uid://ct7dmm660glad"]
 
 [ext_resource type="Script" uid="uid://dnxb02nyykw0h" path="res://main_scene.gd" id="1_5crlr"]
 [ext_resource type="PackedScene" uid="uid://bxlcxv3mo8sfo" path="res://bowl.tscn" id="1_rpqi1"]
-[ext_resource type="Script" uid="uid://8uuyafc3kxo3" path="res://ball.gd" id="1_x4av3"]
 [ext_resource type="Script" uid="uid://drpwuug55g3es" path="res://bowl_U.gd" id="2_uxrcv"]
 [ext_resource type="Script" uid="uid://dkpdgop13p7xk" path="res://bowl_R.gd" id="3_rf2cd"]
+[ext_resource type="Script" uid="uid://brg51j81wb0v8" path="res://item_list.gd" id="6_5crlr"]
 [ext_resource type="Texture2D" uid="uid://bidcv12h5lpr4" path="res://backgrand.png" id="6_a814b"]
-[ext_resource type="Texture2D" uid="uid://crry2jy05esy6" path="res://ball.png" id="7_5crlr"]
 
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_1305s"]
 b = Vector2(0, 600)
@@ -21,9 +20,6 @@ b = Vector2(1000, 600)
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_rpqi1"]
 a = Vector2(1000, 600)
 b = Vector2(1000, 0)
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_1305s"]
-radius = 19.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hbc2u"]
 size = Vector2(100, 100)
@@ -41,10 +37,10 @@ size = Vector2(119, 120)
 size = Vector2(200, 80)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p5x2j"]
-size = Vector2(21, 329)
+size = Vector2(6, 256.5)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8xkvn"]
-size = Vector2(134, 108)
+size = Vector2(134, 117)
 
 [sub_resource type="LabelSettings" id="LabelSettings_5crlr"]
 font_color = Color(0, 0, 0, 1)
@@ -52,6 +48,10 @@ font_color = Color(0, 0, 0, 1)
 [sub_resource type="LabelSettings" id="LabelSettings_hbc2u"]
 font_size = 160
 font_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_torvr"]
+font_size = 20
+font_color = Color(1, 0.470588, 0.419608, 1)
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource("1_5crlr")
@@ -92,26 +92,9 @@ position = Vector2(821, 300)
 script = ExtResource("3_rf2cd")
 
 [node name="Backgrand" type="Sprite2D" parent="."]
-position = Vector2(500, 299.75)
-scale = Vector2(1.04058, 1.03899)
+position = Vector2(500, 300)
+scale = Vector2(0.538503, 0.501672)
 texture = ExtResource("6_a814b")
-
-[node name="Ball" type="RigidBody2D" parent="."]
-position = Vector2(470, 91)
-can_sleep = false
-lock_rotation = true
-continuous_cd = 2
-contact_monitor = true
-max_contacts_reported = 1
-script = ExtResource("1_x4av3")
-
-[node name="Shape" type="CollisionShape2D" parent="Ball"]
-shape = SubResource("CircleShape2D_1305s")
-
-[node name="Sprite2D" type="Sprite2D" parent="Ball"]
-position = Vector2(6.67572e-06, -4.76837e-06)
-scale = Vector2(0.0651131, 0.0651131)
-texture = ExtResource("7_5crlr")
 
 [node name="StaticBody2D6" type="StaticBody2D" parent="."]
 
@@ -147,19 +130,19 @@ shape = SubResource("RectangleShape2D_torvr")
 [node name="Area2D2" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D2"]
-position = Vector2(0.5, 154.5)
+position = Vector2(3.5, 162.5)
 shape = SubResource("RectangleShape2D_p5x2j")
 
 [node name="Area2D" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(550, 288)
+position = Vector2(550, 283.5)
 shape = SubResource("RectangleShape2D_8xkvn")
 
 [node name="Area2D3" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D3"]
-position = Vector2(1000, 164)
+position = Vector2(998, 167.75)
 shape = SubResource("RectangleShape2D_p5x2j")
 
 [node name="UITimerLabel" type="Label" parent="."]
@@ -173,11 +156,63 @@ offset_bottom = 600.0
 label_settings = SubResource("LabelSettings_hbc2u")
 horizontal_alignment = 1
 
-[connection signal="body_entered" from="Ball" to="Ball" method="_on_body_entered"]
-[connection signal="body_exited" from="Ball" to="Ball" method="_on_body_exited"]
-[connection signal="body_entered" from="Area2D2" to="Ball" method="_on_area_2d_2_body_entered"]
-[connection signal="body_exited" from="Area2D2" to="Ball" method="_on_area_2d_2_body_exited"]
-[connection signal="body_entered" from="Area2D" to="Ball" method="_on_area_2d_body_entered"]
-[connection signal="body_exited" from="Area2D" to="Ball" method="_on_area_2d_body_exited"]
-[connection signal="body_entered" from="Area2D3" to="Ball" method="_on_area_2d_2_body_entered"]
-[connection signal="body_exited" from="Area2D3" to="Ball" method="_on_area_2d_2_body_exited"]
+[node name="LineEdit" type="LineEdit" parent="."]
+visible = false
+offset_left = 384.0
+offset_top = 201.0
+offset_right = 640.0
+offset_bottom = 255.0
+placeholder_text = "Enter your name"
+
+[node name="Restart" type="Button" parent="."]
+visible = false
+offset_left = 360.0
+offset_top = 472.0
+offset_right = 496.0
+offset_bottom = 528.0
+text = "Restart"
+
+[node name="ItemList" type="ItemList" parent="."]
+visible = false
+offset_left = 360.0
+offset_top = 136.0
+offset_right = 664.0
+offset_bottom = 456.0
+script = ExtResource("6_5crlr")
+
+[node name="Enter" type="Button" parent="."]
+visible = false
+offset_left = 384.0
+offset_top = 278.0
+offset_right = 640.0
+offset_bottom = 328.0
+text = "Enter"
+
+[node name="Refresh" type="Button" parent="."]
+visible = false
+offset_left = 528.0
+offset_top = 472.0
+offset_right = 664.0
+offset_bottom = 528.0
+text = "Refresh"
+
+[node name="Label" type="Label" parent="."]
+visible = false
+offset_left = 360.0
+offset_top = 104.0
+offset_right = 664.0
+offset_bottom = 128.0
+text = "Loading..."
+label_settings = SubResource("LabelSettings_torvr")
+horizontal_alignment = 1
+
+[node name="Restart2" type="Button" parent="."]
+offset_left = 864.0
+offset_right = 1000.0
+offset_bottom = 56.0
+text = "Restart"
+
+[connection signal="pressed" from="Restart" to="." method="_on_button_2_pressed"]
+[connection signal="pressed" from="Enter" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="Refresh" to="." method="_on_refresh_pressed"]
+[connection signal="pressed" from="Restart2" to="." method="_on_button_2_pressed"]

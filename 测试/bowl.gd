@@ -6,12 +6,12 @@ var yi
 func _ready():
 	# 创建外部碗壁
 	set_xy()
-	var outer_wall = CollisionPolygon2D.new()
+	var _outer_wall = CollisionPolygon2D.new()
 	var outer_points = []
 	var outer_radius = 200
 	
 	# 创建内部碗壁
-	var inner_wall = CollisionPolygon2D.new()
+	var _inner_wall = CollisionPolygon2D.new()
 	var inner_points = []
 	var inner_radius = 180  # 稍小的半径形成壁厚
 	

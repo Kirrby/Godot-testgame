@@ -1,0 +1,36 @@
+[gd_scene load_steps=5 format=3 uid="uid://bghdjdyjq0pnv"]
+
+[ext_resource type="Script" uid="uid://8uuyafc3kxo3" path="res://ball.gd" id="1_41u45"]
+[ext_resource type="Texture2D" uid="uid://crry2jy05esy6" path="res://ball.png" id="2_ktgx5"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_1305s"]
+radius = 19.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_41u45"]
+radius = 19.0
+
+[node name="Ball" type="RigidBody2D" groups=["ball"]]
+can_sleep = false
+lock_rotation = true
+continuous_cd = 2
+contact_monitor = true
+max_contacts_reported = 1
+script = ExtResource("1_41u45")
+
+[node name="Shape" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_1305s")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(6.67572e-06, -4.76837e-06)
+scale = Vector2(0.0651131, 0.0651131)
+texture = ExtResource("2_ktgx5")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_41u45")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="area_exited" from="Area2D" to="." method="_on_area_2d_area_exited"]
