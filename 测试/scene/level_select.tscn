@@ -1,0 +1,52 @@
+[gd_scene load_steps=3 format=3 uid="uid://7kld0rex3smd"]
+
+[ext_resource type="Script" uid="uid://cmqg2jysx8qdm" path="res://script/LevelSelect.gd" id="1_jcnwc"]
+[ext_resource type="Texture2D" uid="uid://dsb0c2ybcbjlm" path="res://asset/arisu.jpg" id="2_rch43"]
+
+[node name="LevelSelect" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_jcnwc")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 1000.0
+offset_bottom = 600.0
+texture = ExtResource("2_rch43")
+expand_mode = 1
+
+[node name="ChapterContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -448.0
+offset_right = 448.0
+offset_bottom = 80.0
+grow_horizontal = 2
+alignment = 1
+
+[node name="LevelScroll" type="ScrollContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -448.0
+offset_top = -160.0
+offset_right = 448.0
+offset_bottom = 160.0
+grow_horizontal = 2
+grow_vertical = 2
+horizontal_scroll_mode = 2
+vertical_scroll_mode = 0
+
+[node name="LevelContainer" type="HBoxContainer" parent="LevelScroll"]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1

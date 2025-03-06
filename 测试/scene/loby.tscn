@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://csvnmeaaqgjxt"]
+[gd_scene load_steps=3 format=3 uid="uid://csvnmeaaqgjxt"]
 
 [ext_resource type="Texture2D" uid="uid://dqldxgld1ss07" path="res://asset/Logo.jpg" id="1_cf3al"]
+[ext_resource type="Script" uid="uid://cy4xrtcf3bwgb" path="res://script/loby.gd" id="1_isld4"]
 
 [node name="Loby" type="Control"]
 layout_mode = 3
@@ -9,6 +10,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_isld4")
 
 [node name="Logo" type="Sprite2D" parent="."]
 position = Vector2(520, 192)
@@ -43,3 +45,5 @@ layout_mode = 2
 size_flags_vertical = 3
 text = "商店
 "
+
+[connection signal="pressed" from="BoxContainer/Start" to="." method="_on_start_pressed"]
