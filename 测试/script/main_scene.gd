@@ -6,6 +6,7 @@ extends Node2D
 @onready var ball_scene = load("res://scene/ball.tscn")
 var player_name
 var score
+var ball_position = Vector2(470.0,91.0)
 @onready var firebase = get_node("/root/Firebase")
 # 金币生成位置的数组
 @export var coin_positions: Array[Vector2] = [
@@ -83,7 +84,7 @@ func start_game():
 	# 生成新金币
 	spawn_coin()  
 	ball = ball_scene.instantiate()
-	ball.position = Vector2(470.0,91.0)
+	ball.position = Vector2(70.0,91.0)
 	add_child(ball)
 
 	

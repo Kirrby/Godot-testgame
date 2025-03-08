@@ -32,7 +32,7 @@ func _ready():
 		
 		# 设置按钮属性
 		button.set_button_size(Vector2(180, 80))
-		button.set_text(chapter.name)
+		button._set_text(chapter.name)
 		button.set_blur_amount(2.0)
 		button.pressed.connect(_on_chapter_selected.bind(i))
 		
@@ -83,7 +83,7 @@ func _update_levels():
 		var button = custom_button_scene.instantiate()
 		
 		# 设置按钮属性
-		button.set_text(str(level))
+		button._set_text(str(level))
 		button.set_blur_amount(1.0)
 		button.pressed.connect(_on_level_selected.bind(level))
 		
