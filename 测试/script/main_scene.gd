@@ -38,7 +38,22 @@ var is_game_over: bool = false
 @onready var game_over_label: Label = $UIGameOverLabel
 
 func _ready():
-	# 初始化游戏
+	# 绘制刚体颜色
+	var rigid_bodies = get_tree().get_nodes_in_group("刚体")
+	for body in rigid_bodies:
+		var shape
+		for child in body.get_children():
+			if child is CollisionShape2D:
+				shape = child
+		# 找到其子节点中的 Sprite2D
+		var color_rect = ColorRect.new()
+		color_rect.color = Color.BLACK
+		if(shape):
+			color_rect.size = shape.shape.extents * 2  # 转换为完整尺寸
+			var offset = color_rect.size / 2
+			#color_rect.position = -color_rect.size / 2  # 居中
+			color_rect.position = shape.position - offset
+			add_child(color_rect)	# 初始化游戏
 	# 获取排行榜
 	firebase.connect("upload",Callable(self,"on_score_upload"))
 	#Firebase.get_leaderboard(_on_leaderboard_updated)

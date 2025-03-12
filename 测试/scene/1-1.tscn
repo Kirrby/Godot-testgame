@@ -25,16 +25,16 @@ b = Vector2(1000, 0)
 size = Vector2(100, 100)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rf2cd"]
-size = Vector2(310, 80.5)
+size = Vector2(298, 21.125)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_a814b"]
-size = Vector2(285, 81.375)
+size = Vector2(198, 21.3745)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5crlr"]
 size = Vector2(119, 120)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_torvr"]
-size = Vector2(200, 80)
+size = Vector2(199, 80)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p5x2j"]
 size = Vector2(6, 256.5)
@@ -80,51 +80,51 @@ freeze = true
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D4"]
 shape = SubResource("SegmentShape2D_rpqi1")
 
-[node name="Bowl" parent="." groups=["弯道"] instance=ExtResource("2_vlgml")]
+[node name="Bowl" parent="." groups=["刚体", "弯道"] instance=ExtResource("2_vlgml")]
 position = Vector2(179, 300)
 
-[node name="Bowl2" parent="." groups=["弯道"] instance=ExtResource("2_vlgml")]
+[node name="Bowl2" parent="." groups=["刚体", "弯道"] instance=ExtResource("2_vlgml")]
 position = Vector2(550, 500)
 script = ExtResource("3_nqw5g")
 
-[node name="Bowl3" parent="." groups=["弯道"] instance=ExtResource("2_vlgml")]
+[node name="Bowl3" parent="." groups=["刚体", "弯道"] instance=ExtResource("2_vlgml")]
 position = Vector2(821, 300)
 script = ExtResource("4_u2c7w")
 
 [node name="Backgrand" type="Sprite2D" parent="."]
-position = Vector2(500, 300)
+position = Vector2(1531, 301)
 scale = Vector2(0.538503, 0.501672)
 texture = ExtResource("5_1n5xk")
 
-[node name="StaticBody2D6" type="StaticBody2D" parent="."]
+[node name="StaticBody2D6" type="StaticBody2D" parent="." groups=["刚体"]]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D6"]
-position = Vector2(1176, 88)
+position = Vector2(800, 184)
 shape = SubResource("RectangleShape2D_hbc2u")
 
-[node name="StaticBody2D3" type="StaticBody2D" parent="."]
+[node name="StaticBody2D3" type="StaticBody2D" parent="." groups=["刚体"]]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D3"]
-position = Vector2(296, 519)
+position = Vector2(301, 489.438)
 shape = SubResource("RectangleShape2D_rf2cd")
 
-[node name="StaticBody2D4" type="StaticBody2D" parent="."]
+[node name="StaticBody2D4" type="StaticBody2D" parent="." groups=["刚体"]]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D4"]
-position = Vector2(792.5, 519.313)
+position = Vector2(749, 489.313)
 shape = SubResource("RectangleShape2D_a814b")
 one_way_collision_margin = 0.0
 
-[node name="StaticBody2D5" type="StaticBody2D" parent="."]
+[node name="StaticBody2D5" type="StaticBody2D" parent="." groups=["刚体"]]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D5"]
-position = Vector2(1160, 424)
+position = Vector2(550, 288)
 shape = SubResource("RectangleShape2D_5crlr")
 
-[node name="StaticBody2D7" type="StaticBody2D" parent="."]
+[node name="StaticBody2D7" type="StaticBody2D" parent="." groups=["刚体"]]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D7"]
-position = Vector2(551, 519)
+position = Vector2(239, 226)
 shape = SubResource("RectangleShape2D_torvr")
 
 [node name="Area2D2" type="Area2D" parent="."]
@@ -136,7 +136,7 @@ shape = SubResource("RectangleShape2D_p5x2j")
 [node name="Area2D" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(1168, 272)
+position = Vector2(550, 288)
 shape = SubResource("RectangleShape2D_8xkvn")
 
 [node name="Area2D3" type="Area2D" parent="."]
@@ -151,10 +151,10 @@ offset_bottom = 23.0
 label_settings = SubResource("LabelSettings_5crlr")
 
 [node name="UIGameOverLabel" type="Label" parent="."]
-offset_left = -112.0
-offset_top = 504.0
-offset_right = 888.0
-offset_bottom = 1104.0
+offset_left = 2549.0
+offset_top = 23.0
+offset_right = 3549.0
+offset_bottom = 623.0
 label_settings = SubResource("LabelSettings_hbc2u")
 horizontal_alignment = 1
 
