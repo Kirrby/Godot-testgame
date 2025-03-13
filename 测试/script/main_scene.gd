@@ -2,8 +2,17 @@ extends Node2D
 
 # 金币场景（需要提前在场景中创建并保存为单独的场景文件）
 @onready var coin_scene = load("res://scene/coin.tscn")
-@onready var item_list: ItemList = $ItemList
+@onready var item_list: ItemList = $CanvasLayer/ItemList
 @onready var ball_scene = load("res://scene/ball.tscn")
+@onready var ui_timer_label: Label = $CanvasLayer/UITimerLabel
+@onready var ui_game_over_label: Label = $CanvasLayer/UIGameOverLabel
+@onready var restart_2: Button = $CanvasLayer/Restart2
+@onready var restart: Button = $CanvasLayer/Restart
+@onready var enter: Button = $CanvasLayer/Enter
+@onready var refresh: Button = $CanvasLayer/Refresh
+@onready var label: Label = $CanvasLayer/Label
+@onready var line_edit: LineEdit = $CanvasLayer/LineEdit
+
 var player_name
 var score
 var ball_position = Vector2(470.0,91.0)
@@ -34,8 +43,8 @@ var game_start_time: float = 0.0
 var is_game_over: bool = false
 
 # UI 节点（需要在场景中创建并连接到脚本）
-@onready var timer_label: Label = $UITimerLabel
-@onready var game_over_label: Label = $UIGameOverLabel
+@onready var timer_label: Label = $CanvasLayer/UITimerLabel
+@onready var game_over_label: Label = $CanvasLayer/UIGameOverLabel
 
 func _ready():
 	# 绘制刚体颜色
@@ -88,12 +97,12 @@ func start_game():
 
 	# 重置UI状态
 	game_over_label.visible = false
-	$LineEdit.visible = false
-	$Enter.visible = false
-	$ItemList.visible = false
-	$Refresh.visible = false
-	$Restart.visible = false
-	$Label.visible = false
+	line_edit.visible = false
+	enter.visible = false
+	item_list.visible = false
+	refresh.visible = false
+	restart.visible = false
+	label.visible = false
 	timer_label.text = "Time: 0.0"
 	
 	# 生成新金币
@@ -153,8 +162,8 @@ func end_game():
 	is_game_over = true
 	game_over_label.visible = true
 	game_over_label.text = "Game Over!\nTime: %.1f" % (Time.get_ticks_msec() / 1000.0 - game_start_time)
-	$LineEdit.visible = true
-	$Enter.visible = true
+	line_edit.visible = true
+	enter.visible = true
 	score = (Time.get_ticks_msec() / 1000.0 - game_start_time)  # 转换为整数分数
 	
 	
@@ -167,38 +176,38 @@ func _on_leaderboard_updated(scores: Array):
 
 
 func _on_button_pressed() -> void:
-	$LineEdit.visible = false
-	$Enter.visible = false
-	$ItemList.visible = true
-	$Refresh.visible = true
-	$Label.visible = true
-	$Restart.visible = true
-	player_name = $LineEdit.text.strip_edges()
+	line_edit.visible = false
+	enter.visible = false
+	item_list.visible = true
+	refresh.visible = true
+	label.visible = true
+	restart.visible = true
+	player_name = line_edit.text.strip_edges()
 	if player_name == "":
 		player_name = "Player1"  # 如果玩家未输入姓名，使用默认值
 	Firebase.upload_score(player_name, score)
-	$Label.text = "Uploading your scores..."
+	label.text = "Uploading your scores..."
 	pass # Replace with function body.
 
 func on_score_upload(code):
 	if code == 200:
-		$Label.text = "Get online leaderboards"
+		label.text = "Get online leaderboards"
 		Firebase.get_leaderboard(_on_leaderboard_updated)
 	pass
 
 
 func _on_button_2_pressed() -> void:
-	$LineEdit.visible = false
-	$Enter.visible = false
-	$ItemList.visible = false
-	$Label.visible = false
-	$Refresh.visible = false
-	$Restart.visible = false
+	line_edit.visible = false
+	enter.visible = false
+	item_list.visible = false
+	label.visible = false
+	refresh.visible = false
+	restart.visible = false
 	start_game()
 	pass # Replace with function body.
 
 
 func _on_refresh_pressed() -> void:
-	$Label.text = "Sorry,plase wait a minute..."
+	label.text = "Sorry,plase wait a minute..."
 	Firebase.get_leaderboard(_on_leaderboard_updated)
 	pass # Replace with function body.

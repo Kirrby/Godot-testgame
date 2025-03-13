@@ -14,7 +14,7 @@ func _ready():
 	#normal_style.corner_radius_bottom_left = 10
 	#normal_style.corner_radius_bottom_right = 10
 	#
-	## 初始化选中样式
+	# 初始化选中样式
 	#selected_style = StyleBoxFlat.new()
 	#selected_style.bg_color = Color(0.3, 0.3, 0.3, 1.0)
 	#selected_style.border_width_left = 2

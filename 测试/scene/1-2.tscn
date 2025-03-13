@@ -92,7 +92,7 @@ position = Vector2(821, 300)
 script = ExtResource("4_2ob2g")
 
 [node name="Backgrand" type="Sprite2D" parent="."]
-position = Vector2(500, 300)
+position = Vector2(1561, 300)
 scale = Vector2(0.538503, 0.501672)
 texture = ExtResource("5_ffeje")
 
@@ -145,19 +145,20 @@ shape = SubResource("RectangleShape2D_8xkvn")
 position = Vector2(998, 167.75)
 shape = SubResource("RectangleShape2D_p5x2j")
 
-[node name="UITimerLabel" type="Label" parent="."]
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="UITimerLabel" type="Label" parent="CanvasLayer"]
 offset_right = 40.0
 offset_bottom = 23.0
 label_settings = SubResource("LabelSettings_5crlr")
 
-[node name="UIGameOverLabel" type="Label" parent="."]
-offset_left = 3.0
-offset_right = 1003.0
+[node name="UIGameOverLabel" type="Label" parent="CanvasLayer"]
+offset_right = 1000.0
 offset_bottom = 600.0
 label_settings = SubResource("LabelSettings_hbc2u")
 horizontal_alignment = 1
 
-[node name="LineEdit" type="LineEdit" parent="."]
+[node name="LineEdit" type="LineEdit" parent="CanvasLayer"]
 visible = false
 offset_left = 384.0
 offset_top = 201.0
@@ -165,7 +166,7 @@ offset_right = 640.0
 offset_bottom = 255.0
 placeholder_text = "Enter your name"
 
-[node name="Restart" type="Button" parent="."]
+[node name="Restart" type="Button" parent="CanvasLayer"]
 visible = false
 offset_left = 360.0
 offset_top = 472.0
@@ -173,7 +174,7 @@ offset_right = 496.0
 offset_bottom = 528.0
 text = "Restart"
 
-[node name="ItemList" type="ItemList" parent="."]
+[node name="ItemList" type="ItemList" parent="CanvasLayer"]
 visible = false
 offset_left = 360.0
 offset_top = 136.0
@@ -181,7 +182,7 @@ offset_right = 664.0
 offset_bottom = 456.0
 script = ExtResource("6_3ul8c")
 
-[node name="Enter" type="Button" parent="."]
+[node name="Enter" type="Button" parent="CanvasLayer"]
 visible = false
 offset_left = 384.0
 offset_top = 278.0
@@ -189,7 +190,7 @@ offset_right = 640.0
 offset_bottom = 328.0
 text = "Enter"
 
-[node name="Refresh" type="Button" parent="."]
+[node name="Refresh" type="Button" parent="CanvasLayer"]
 visible = false
 offset_left = 528.0
 offset_top = 472.0
@@ -197,7 +198,7 @@ offset_right = 664.0
 offset_bottom = 528.0
 text = "Refresh"
 
-[node name="Label" type="Label" parent="."]
+[node name="Label" type="Label" parent="CanvasLayer"]
 visible = false
 offset_left = 360.0
 offset_top = 104.0
@@ -207,13 +208,13 @@ text = "Loading..."
 label_settings = SubResource("LabelSettings_torvr")
 horizontal_alignment = 1
 
-[node name="Restart2" type="Button" parent="."]
+[node name="Restart2" type="Button" parent="CanvasLayer"]
 offset_left = 864.0
 offset_right = 1000.0
 offset_bottom = 56.0
 text = "Restart"
 
-[connection signal="pressed" from="Restart" to="." method="_on_button_2_pressed"]
-[connection signal="pressed" from="Enter" to="." method="_on_button_pressed"]
-[connection signal="pressed" from="Refresh" to="." method="_on_refresh_pressed"]
-[connection signal="pressed" from="Restart2" to="." method="_on_button_2_pressed"]
+[connection signal="pressed" from="CanvasLayer/Restart" to="." method="_on_button_2_pressed"]
+[connection signal="pressed" from="CanvasLayer/Enter" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/Refresh" to="." method="_on_refresh_pressed"]
+[connection signal="pressed" from="CanvasLayer/Restart2" to="." method="_on_button_2_pressed"]
