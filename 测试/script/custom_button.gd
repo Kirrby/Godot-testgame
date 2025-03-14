@@ -5,6 +5,7 @@ var normal_style: StyleBoxFlat
 var selected_style: StyleBoxFlat
 
 func _ready():
+	pivot_offset = custom_minimum_size / 2
 	pass
 	# 初始化普通样式
 	#normal_style = StyleBoxFlat.new()

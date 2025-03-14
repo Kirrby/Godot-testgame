@@ -48,5 +48,5 @@ vertical_scroll_mode = 0
 
 [node name="LevelContainer" type="HBoxContainer" parent="LevelScroll"]
 layout_mode = 2
-theme_override_constants/separation = 20
+theme_override_constants/separation = 40
 alignment = 1
