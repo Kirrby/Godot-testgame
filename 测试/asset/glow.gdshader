@@ -1,14 +1,12 @@
 shader_type canvas_item;
 
-uniform float glow_power : hint_range(0, 2) = 0;
+uniform float glow_width = 0.2;
+uniform vec4 glow_color : source_color = vec4(1.0);
 
 void fragment() {
-    vec4 tex_color = texture(TEXTURE, UV);
-    
-    // 光晕计算
-    vec2 uv_center = UV - 0.5;
-    float glow = smoothstep(0.5, 0.0, length(uv_center)) * glow_power;
-    
-    // 叠加颜色
-    COLOR = tex_color + vec4(0.8, 0.6, 1.0, 1.0) * glow;
+    vec2 uv = UV * 2.0 - 1.0;
+    float distance = length(uv);
+    float alpha = smoothstep(0.8, 0.0, distance) * glow_color.a;
+
+    COLOR = vec4(glow_color.rgb, alpha);
 }

@@ -9,9 +9,9 @@ var current_focused_index := 0
 var custom_button_scene = preload("res://scene/custom_button.tscn")
 
 var chapters = [
-	{"name": "第一章", "levels": range(1, 11)},
-	{"name": "第二章", "levels": range(1, 11)},
-	{"name": "第三章", "levels": range(1, 11)}
+	{"name": "第一章", "levels": range(1, 6)},
+	{"name": "第二章", "levels": range(1, 6)},
+	{"name": "第三章", "levels": range(1, 6)}
 ]
 
 var current_chapter = 0
@@ -38,7 +38,7 @@ func _ready():
 		var button = custom_button_scene.instantiate()
 		button.set_button_size(Vector2(180, 80))
 		button._set_text(chapters[i].name)
-		button.set_blur_amount(2.0)
+		#button.set_blur_amount(2.0)
 		button.pressed.connect(_on_chapter_selected.bind(i))
 		if i == current_chapter:
 			button.set_selected(true)
@@ -128,7 +128,7 @@ func _process_click(click_pos: Vector2):
 			break
 
 
-func _handle_real_click(click_pos: Vector2) -> void:
+func _handle_real_click(_click_pos: Vector2) -> void:
 	# 转换坐标到全局视图坐标系
 	var viewport := get_viewport()
 	var global_pos := viewport.get_mouse_position()
@@ -149,32 +149,45 @@ func _handle_real_click(click_pos: Vector2) -> void:
 			return
 
 func _auto_align_card():
-	if is_auto_scrolling: return
+	if is_auto_scrolling:
+		return
 	
-	var max_scroll = max(level_container.size.x - level_scroll.size.x, 0)
-	var center_x = level_scroll.size.x / 2
+	# 获取精确的容器尺寸
+	var content_width = level_container.size.x
+	var viewport_width = level_scroll.size.x
+	
+	# 修正滚动范围计算：允许部分溢出
+	var max_scroll = max(content_width - viewport_width + card_width * 0.5, 0)
+	var center_x = viewport_width / 2
+	
+	# 查找最近卡片
 	var min_distance = INF
 	var target_index = 0
-	
 	for i in level_container.get_child_count():
 		var card = level_container.get_child(i)
-		var card_global_pos = card.position.x + card.size.x / 2
-		var distance = abs(card_global_pos - (level_scroll.scroll_horizontal + center_x))
+		var card_center = card.position.x + card.size.x / 2
+		var distance = abs(card_center - (level_scroll.scroll_horizontal + center_x))
 		if distance < min_distance:
 			min_distance = distance
 			target_index = i
 	
-	current_focused_index = target_index
+	# 计算目标位置时允许边缘溢出
 	var target_card = level_container.get_child(target_index)
+	var target_center = target_card.position.x + target_card.size.x / 2
+	var target_scroll = target_center - center_x
+	
+	# 调整clamp范围：允许第一个卡片左边缘溢出
 	target_scroll = clamp(
-		target_card.position.x + target_card.size.x / 2 - center_x,
-		0, 
-		max_scroll
+		target_scroll,
+		-card_width * 0.5,  # 允许向左溢出卡片宽度的一半
+		max_scroll + card_width * 0.5  # 允许向右溢出
 	)
 	
+	# 创建滚动动画
 	var tween = create_tween()
 	tween.tween_property(level_scroll, "scroll_horizontal", target_scroll, 0.3)\
-		.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
+		.set_ease(Tween.EASE_OUT)\
+		.set_trans(Tween.TRANS_CUBIC)
 	tween.tween_callback(_update_card_states)
 	is_auto_scrolling = true
 
@@ -188,6 +201,7 @@ func _update_focus_effect():
 		var card = level_container.get_child(i)
 		var card_center = card.position.x + card.size.x / 2
 		var distance = abs(card_center - center_x)
+		
 		
 		# 动态缩放
 		var target_scale = Vector2.ONE
@@ -213,29 +227,41 @@ func _on_chapter_selected(index: int):
 	current_chapter = index
 	_update_levels()
 
+# 修改后的_update_levels方法
 func _update_levels():
 	for child in level_container.get_children():
 		child.queue_free()
 	
 	var levels = chapters[current_chapter].levels
+	
+	# 添加起始占位卡片
+	var start_spacer = _create_spacer_card()
+	level_container.add_child(start_spacer)
+	
+	# 添加实际关卡卡片
 	for level in levels:
 		var button = custom_button_scene.instantiate()
 		button._set_text(str(level))
-		button.set_blur_amount(1.0)
 		button.pressed.connect(_on_level_selected.bind(level))
-		button.set_meta("original_scale", Vector2.ONE)
+		button.set_meta("is_real_card", true)  # 标记真实卡片
 		level_container.add_child(button)
+	
+	# 添加结束占位卡片
+	var end_spacer = _create_spacer_card()
+	level_container.add_child(end_spacer)
 	
 	await get_tree().process_frame
 	_auto_align_card()
 
+func _create_spacer_card() -> Control:
+	var spacer = Control.new()
+	spacer.custom_minimum_size = Vector2(275, 200)  # 宽度与正常卡片一致
+	#spacer.visible = false  # 完全不可见
+	spacer.mouse_filter = Control.MOUSE_FILTER_IGNORE  # 不接收输入
+	spacer.set_meta("is_spacer", true)  # 添加元数据标记
+	return spacer
+
 func _on_level_selected(level: int):
 	var selected_index = level - chapters[current_chapter].levels[0]
-	if selected_index != current_focused_index:
-		# 添加震动反馈（仅限移动端）
-		if OS.get_name() in ["Android", "iOS"]:
-			Input.vibrate_handheld(50)
-		return
-	
 	print("进入关卡：", current_chapter + 1, "-", level)
 	get_tree().change_scene_to_file("res://scene/%d-%d.tscn" % [current_chapter + 1, level])

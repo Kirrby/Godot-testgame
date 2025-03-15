@@ -1,18 +1,13 @@
-[gd_scene load_steps=7 format=3 uid="uid://dxqxm8u1yvxqw"]
+[gd_scene load_steps=5 format=3 uid="uid://dxqxm8u1yvxqw"]
 
 [ext_resource type="Shader" uid="uid://bopi1h3kmh4rk" path="res://asset/Blur.gdshader" id="1_8yvxq"]
 [ext_resource type="Script" uid="uid://bq3x4lcxixjrm" path="res://script/custom_button.gd" id="2_je7iq"]
-[ext_resource type="Texture2D" uid="uid://3d8amvo3s64o" path="res://icon.svg" id="3_djcvl"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_djcvl"]
 shader = ExtResource("1_8yvxq")
 shader_parameter/lod = 1.5
 
 [sub_resource type="Theme" id="Theme_djcvl"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_je7iq"]
-shader = ExtResource("1_8yvxq")
-shader_parameter/lod = 1.0
 
 [node name="Button" type="Button"]
 material = SubResource("ShaderMaterial_djcvl")
@@ -22,44 +17,12 @@ offset_bottom = 240.0
 theme = SubResource("Theme_djcvl")
 script = ExtResource("2_je7iq")
 
-[node name="Border" type="Panel" parent="."]
-visible = false
-show_behind_parent = true
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-
-[node name="StyleBox" type="Panel" parent="."]
-visible = false
-show_behind_parent = true
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 0
 offset_right = 240.0
 offset_bottom = 240.0
 mouse_filter = 2
 color = Color(0, 0, 0, 0.396078)
-
-[node name="TextureRect" type="TextureRect" parent="."]
-visible = false
-material = SubResource("ShaderMaterial_je7iq")
-layout_mode = 0
-offset_right = 240.0
-offset_bottom = 240.0
-mouse_filter = 2
-texture = ExtResource("3_djcvl")
-expand_mode = 1
 
 [node name="Label" type="Label" parent="."]
 layout_mode = 1
