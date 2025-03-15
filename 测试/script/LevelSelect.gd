@@ -61,10 +61,8 @@ func _process(delta):
 
 
 func _input(event: InputEvent) -> void:
-	
 	# 处理触摸事件
 	if event is InputEventScreenTouch:
-		
 		if event.pressed:
 			is_dragging = true
 			drag_start_position = event.position
@@ -128,7 +126,7 @@ func _process_click(click_pos: Vector2):
 			break
 
 
-func _handle_real_click(_click_pos: Vector2) -> void:
+func _handle_real_click(click_pos: Vector2) -> void:
 	# 转换坐标到全局视图坐标系
 	var viewport := get_viewport()
 	var global_pos := viewport.get_mouse_position()
@@ -201,7 +199,14 @@ func _update_focus_effect():
 		var card = level_container.get_child(i)
 		var card_center = card.position.x + card.size.x / 2
 		var distance = abs(card_center - center_x)
-		
+		var is_focused = (i == current_focused_index)
+		#print("卡片 %d: 位置 %.1f | 距离 %.1f | 聚焦 %s | 可点击 %s" % [
+			#i, 
+			#card_center,
+			#distance,
+			#"✅" if is_focused else "❌",
+			#"✅" if card.mouse_filter == Control.MOUSE_FILTER_PASS else "❌"
+		#])
 		
 		# 动态缩放
 		var target_scale = Vector2.ONE
@@ -209,9 +214,6 @@ func _update_focus_effect():
 			var lerp_weight = 1.0 - distance / card_width
 			target_scale = Vector2.ONE.lerp(Vector2(focus_scale, focus_scale), lerp_weight)
 		
-		# 设置可点击状态
-		card.mouse_filter = Control.MOUSE_FILTER_PASS if i == current_focused_index \
-			else Control.MOUSE_FILTER_IGNORE
 		
 		# 平滑动画
 		var tween = create_tween()
@@ -242,7 +244,7 @@ func _update_levels():
 	for level in levels:
 		var button = custom_button_scene.instantiate()
 		button._set_text(str(level))
-		button.pressed.connect(_on_level_selected.bind(level))
+		button.pressed.connect(func(): _on_level_selected(level))
 		button.set_meta("is_real_card", true)  # 标记真实卡片
 		level_container.add_child(button)
 	
@@ -260,6 +262,9 @@ func _create_spacer_card() -> Control:
 	spacer.mouse_filter = Control.MOUSE_FILTER_IGNORE  # 不接收输入
 	spacer.set_meta("is_spacer", true)  # 添加元数据标记
 	return spacer
+
+func printqqq():
+	print(3)
 
 func _on_level_selected(level: int):
 	var selected_index = level - chapters[current_chapter].levels[0]
