@@ -1,11 +1,21 @@
-[gd_scene load_steps=21 format=3 uid="uid://ct7dmm660glad"]
+[gd_scene load_steps=23 format=3 uid="uid://ct7dmm660glad"]
 
 [ext_resource type="Script" uid="uid://dnxb02nyykw0h" path="res://script/main_scene.gd" id="1_30lgk"]
+[ext_resource type="Shader" uid="uid://btoe4miahdwtt" path="res://asset/backgrand.gdshader" id="2_nqw5g"]
 [ext_resource type="PackedScene" uid="uid://bxlcxv3mo8sfo" path="res://scene/bowl.tscn" id="2_vlgml"]
 [ext_resource type="Script" uid="uid://drpwuug55g3es" path="res://script/bowl_U.gd" id="3_nqw5g"]
 [ext_resource type="Script" uid="uid://dkpdgop13p7xk" path="res://script/bowl_R.gd" id="4_u2c7w"]
 [ext_resource type="Texture2D" uid="uid://bidcv12h5lpr4" path="res://asset/backgrand.png" id="5_1n5xk"]
 [ext_resource type="Script" uid="uid://brg51j81wb0v8" path="res://script/item_list.gd" id="6_h1bur"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1n5xk"]
+shader = ExtResource("2_nqw5g")
+shader_parameter/cells = 15
+shader_parameter/border = 0.0
+shader_parameter/color_speed = 0.1
+shader_parameter/pattern_seed = 0.0
+shader_parameter/animated_cells = true
+shader_parameter/color_cycling = false
 
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_1305s"]
 b = Vector2(0, 600)
@@ -28,7 +38,7 @@ size = Vector2(100, 100)
 size = Vector2(290, 21.125)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_a814b"]
-size = Vector2(198, 21.3745)
+size = Vector2(181, 20.0002)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5crlr"]
 size = Vector2(119, 120)
@@ -55,6 +65,11 @@ font_color = Color(1, 0.470588, 0.419608, 1)
 
 [node name="1-1" type="Node2D"]
 script = ExtResource("1_30lgk")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_1n5xk")
+offset_right = 1000.0
+offset_bottom = 600.0
 
 [node name="RigidBody2D" type="RigidBody2D" parent="."]
 freeze = true
@@ -111,7 +126,7 @@ shape = SubResource("RectangleShape2D_rf2cd")
 [node name="StaticBody2D4" type="StaticBody2D" parent="." groups=["刚体"]]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D4"]
-position = Vector2(749, 489.313)
+position = Vector2(740.5, 490)
 shape = SubResource("RectangleShape2D_a814b")
 one_way_collision_margin = 0.0
 
