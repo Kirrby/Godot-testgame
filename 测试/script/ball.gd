@@ -3,7 +3,7 @@ extends RigidBody2D
 # 加速度的大小
 const ACCELERATION_MAGNITUDE = 350
 const SCALE_SPEED = 30  # 大小变化的速度
-const MAX_SCALE = 2.0    # 最大放大倍数
+const MAX_SCALE = 2.5    # 最大放大倍数
 const MIN_SCALE = 1.0    # 原始大小
 
 var normal : Vector2

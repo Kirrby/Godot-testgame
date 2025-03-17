@@ -6,12 +6,17 @@ var card_width := 200
 var focus_scale := 1.2
 var current_focused_index := 0
 
+var thumbnail_viewport: Viewport
+var current_thumbnail_path := ""
+var thumbnail_queue := []
+var is_generating := false
+
 var custom_button_scene = preload("res://scene/custom_button.tscn")
 
 var chapters = [
 	{"name": "第一章", "levels": range(1, 6)},
-	{"name": "第二章", "levels": range(1, 6)},
-	{"name": "第三章", "levels": range(1, 6)}
+	{"name": "第二章", "levels": range(1, 4)},
+	{"name": "第三章", "levels": range(1, 1)}
 ]
 
 var current_chapter = 0
@@ -44,6 +49,7 @@ func _ready():
 			button.set_selected(true)
 		chapter_container.add_child(button)
 	_update_levels()
+	setup_thumbnail_generator()
 
 func _process(delta):
 	if not is_dragging and abs(scroll_velocity) > 0:
@@ -139,7 +145,6 @@ func _handle_real_click(click_pos: Vector2) -> void:
 			btn.size * btn.scale  # 考虑缩放后的实际大小
 		)
 		
-		
 		# 判断点击是否在按钮范围内
 		if btn_rect.has_point(global_pos):
 			# 触发按钮的按下信号
@@ -195,29 +200,47 @@ func _update_card_states():
 
 func _update_focus_effect():
 	var center_x = level_scroll.size.x / 2 + level_scroll.scroll_horizontal
+	var new_focus_index = -1
 	for i in level_container.get_child_count():
 		var card = level_container.get_child(i)
+		if card.get_meta("is_spacer", false):
+			continue
+		
 		var card_center = card.position.x + card.size.x / 2
 		var distance = abs(card_center - center_x)
-		var is_focused = (i == current_focused_index)
-		#print("卡片 %d: 位置 %.1f | 距离 %.1f | 聚焦 %s | 可点击 %s" % [
-			#i, 
-			#card_center,
-			#distance,
-			#"✅" if is_focused else "❌",
-			#"✅" if card.mouse_filter == Control.MOUSE_FILTER_PASS else "❌"
-		#])
-		
-		# 动态缩放
+		if distance < card_width * 0.6:  # 调整聚焦判定范围
+			new_focus_index = i
+			break
+	for i in level_container.get_child_count():
+		var card = level_container.get_child(i)
+		if card.get_meta("is_spacer", false):
+			continue
+			
+		var is_focused = (i == new_focus_index)
 		var target_scale = Vector2.ONE
-		if distance < card_width:
-			var lerp_weight = 1.0 - distance / card_width
-			target_scale = Vector2.ONE.lerp(Vector2(focus_scale, focus_scale), lerp_weight)
 		
+		if is_focused:
+			current_focused_index = i
+			target_scale = Vector2(focus_scale, focus_scale)
+			# 触发缩略图加载
+			load_thumbnail_for_card(card)
+		else:
+			# 清理非聚焦卡片的缩略图
+			if card.has_method("clear_thumbnail"):
+				card.clear_thumbnail()
 		
 		# 平滑动画
 		var tween = create_tween()
 		tween.tween_property(card, "scale", target_scale, 0.2)
+
+
+func load_thumbnail_for_card(card):
+	var level_path = card.get_meta("level_path")
+	if level_path == current_thumbnail_path: 
+		return
+		
+	current_thumbnail_path = level_path
+	generate_thumbnail_async(level_path)
 
 func _set_buttons_mouse_filter(filter):
 	for btn in level_container.get_children():
@@ -247,6 +270,8 @@ func _update_levels():
 		button.pressed.connect(func(): _on_level_selected(level))
 		button.set_meta("is_real_card", true)  # 标记真实卡片
 		level_container.add_child(button)
+		var level_path = "res://scene/%d-%d.tscn" % [current_chapter + 1, level]
+		button.set_meta("level_path", level_path)
 	
 	# 添加结束占位卡片
 	var end_spacer = _create_spacer_card()
@@ -258,15 +283,104 @@ func _update_levels():
 func _create_spacer_card() -> Control:
 	var spacer = Control.new()
 	spacer.custom_minimum_size = Vector2(275, 200)  # 宽度与正常卡片一致
-	#spacer.visible = false  # 完全不可见
 	spacer.mouse_filter = Control.MOUSE_FILTER_IGNORE  # 不接收输入
 	spacer.set_meta("is_spacer", true)  # 添加元数据标记
 	return spacer
-
-func printqqq():
-	print(3)
 
 func _on_level_selected(level: int):
 	var selected_index = level - chapters[current_chapter].levels[0]
 	print("进入关卡：", current_chapter + 1, "-", level)
 	get_tree().change_scene_to_file("res://scene/%d-%d.tscn" % [current_chapter + 1, level])
+
+
+func generate_thumbnail_async(level_path: String):
+	# 优先检查缓存
+	var cached = load_cached_thumbnail(level_path)
+	if cached:
+		apply_thumbnail_to_focused_card(cached)
+		return
+	
+	# 加入生成队列
+	if not level_path in thumbnail_queue:
+		thumbnail_queue.append(level_path)
+		
+	# 延迟处理避免卡顿
+	await get_tree().process_frame
+	process_thumbnail_queue()
+
+func process_thumbnail_queue():
+	if is_generating or thumbnail_queue.is_empty():
+		return
+		
+	is_generating = true
+	var path = thumbnail_queue.pop_front()
+	
+	# 实际生成逻辑
+	var texture = await generate_thumbnail(path)
+	
+	# 更新当前聚焦卡片
+	if path == current_thumbnail_path:
+		apply_thumbnail_to_focused_card(texture)
+	
+	# 缓存结果
+	save_thumbnail_cache(path, texture)
+	is_generating = false
+	
+	# 处理下一个
+	process_thumbnail_queue()
+
+func generate_thumbnail(level_path: String) -> Texture2D:
+	# 加载场景
+	var scene = load(level_path)
+	var instance = scene.instantiate()
+	
+	# 添加临时摄像机
+	var cam = Camera2D.new()
+	cam.position_smoothing_enabled = false
+	cam.position = Vector2(500, 300)
+	cam.make_current()
+	instance.add_child(cam)
+	
+	# 渲染到Viewport
+	thumbnail_viewport.add_child(instance)
+	await get_tree().process_frame
+	await get_tree().process_frame
+	
+	# 捕获图像
+	var image = thumbnail_viewport.get_texture().get_image()
+	image.resize(200, 120, Image.INTERPOLATE_LANCZOS)
+	
+	# 清理
+	instance.queue_free()
+	return ImageTexture.create_from_image(image)
+
+
+func load_cached_thumbnail(path: String) -> Texture2D:
+	var hash = path.hash()
+	var cache_path = "user://thumbnails/%d.png" % hash
+	
+	if FileAccess.file_exists(cache_path):
+		var image = Image.new()
+		image.load(cache_path)
+		return ImageTexture.create_from_image(image)
+	return null
+
+func save_thumbnail_cache(path: String, texture: Texture2D):
+	var dir = DirAccess.open("user://")
+	dir.make_dir_recursive("thumbnails")
+	
+	var hash = path.hash()
+	texture.get_image().save_png("user://thumbnails/%d.png" % hash)
+
+
+func apply_thumbnail_to_focused_card(texture: Texture2D):
+	var card = level_container.get_child(current_focused_index)
+	if card and card.has_method("set_thumbnail"):
+		card.set_thumbnail(texture)
+
+
+func setup_thumbnail_generator():
+	thumbnail_viewport = SubViewport.new()
+	thumbnail_viewport.size = Vector2i(1000, 600)
+	thumbnail_viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS
+	add_child(thumbnail_viewport)

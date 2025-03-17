@@ -1,0 +1,252 @@
+[gd_scene load_steps=23 format=3 uid="uid://8r6nqbe3pdop"]
+
+[ext_resource type="Script" uid="uid://dnxb02nyykw0h" path="res://script/main_scene.gd" id="1_rysgu"]
+[ext_resource type="Shader" uid="uid://btoe4miahdwtt" path="res://asset/backgrand.gdshader" id="2_gbog0"]
+[ext_resource type="PackedScene" uid="uid://bxlcxv3mo8sfo" path="res://scene/bowl.tscn" id="3_o8on1"]
+[ext_resource type="Script" uid="uid://drpwuug55g3es" path="res://script/bowl_U.gd" id="4_ym6oy"]
+[ext_resource type="Script" uid="uid://dkpdgop13p7xk" path="res://script/bowl_R.gd" id="5_jok10"]
+[ext_resource type="Script" uid="uid://brg51j81wb0v8" path="res://script/item_list.gd" id="6_ga2ru"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2ob2g"]
+shader = ExtResource("2_gbog0")
+shader_parameter/cells = 50
+shader_parameter/border = 0.0
+shader_parameter/color_speed = 0.1
+shader_parameter/pattern_seed = 0.0
+shader_parameter/animated_cells = true
+shader_parameter/color_cycling = false
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_1305s"]
+b = Vector2(0, 600)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_3mqji"]
+b = Vector2(1000, 0)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_x4av3"]
+a = Vector2(0, 600)
+b = Vector2(1000, 600)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_rpqi1"]
+a = Vector2(1000, 600)
+b = Vector2(1000, 0)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hbc2u"]
+size = Vector2(120, 120)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rf2cd"]
+size = Vector2(253, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_a814b"]
+size = Vector2(20, 239)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5crlr"]
+size = Vector2(250.5, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_torvr"]
+size = Vector2(20, 237.625)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fyaqb"]
+size = Vector2(257, 53)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_p5x2j"]
+size = Vector2(6, 256.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8xkvn"]
+size = Vector2(126, 126)
+
+[sub_resource type="LabelSettings" id="LabelSettings_5crlr"]
+font_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_hbc2u"]
+font_size = 160
+font_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_torvr"]
+font_size = 20
+font_color = Color(1, 0.470588, 0.419608, 1)
+
+[node name="1-1" type="Node2D"]
+script = ExtResource("1_rysgu")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+visible = false
+material = SubResource("ShaderMaterial_2ob2g")
+offset_right = 1000.0
+offset_bottom = 1000.0
+
+[node name="RigidBody2D" type="RigidBody2D" parent="."]
+freeze = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D"]
+shape = SubResource("SegmentShape2D_1305s")
+
+[node name="RigidBody2D2" type="RigidBody2D" parent="."]
+freeze = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D2"]
+shape = SubResource("SegmentShape2D_3mqji")
+
+[node name="RigidBody2D3" type="RigidBody2D" parent="."]
+freeze = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D3"]
+shape = SubResource("SegmentShape2D_x4av3")
+
+[node name="RigidBody2D4" type="RigidBody2D" parent="."]
+freeze = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D4"]
+shape = SubResource("SegmentShape2D_rpqi1")
+
+[node name="Bowl" parent="." groups=["弯道"] instance=ExtResource("3_o8on1")]
+position = Vector2(1326, 272)
+
+[node name="半圆1" parent="." groups=["弯道"] instance=ExtResource("3_o8on1")]
+position = Vector2(500, 450)
+script = ExtResource("4_ym6oy")
+
+[node name="Bowl3" parent="." groups=["弯道"] instance=ExtResource("3_o8on1")]
+position = Vector2(1534, 272)
+rotation = 4.71239
+script = ExtResource("5_jok10")
+
+[node name="半圆2" parent="." groups=["弯道"] instance=ExtResource("3_o8on1")]
+position = Vector2(849, 330)
+rotation = 4.71239
+script = ExtResource("4_ym6oy")
+
+[node name="半圆3" parent="." groups=["弯道"] instance=ExtResource("3_o8on1")]
+position = Vector2(150, 330)
+rotation = 1.5708
+script = ExtResource("4_ym6oy")
+
+[node name="StaticBody2D6" type="StaticBody2D" parent="." groups=["刚体"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D6"]
+position = Vector2(500, 338)
+shape = SubResource("RectangleShape2D_hbc2u")
+
+[node name="StaticBody2D3" type="StaticBody2D" parent="." groups=["刚体"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D3"]
+position = Vector2(273.5, 441)
+shape = SubResource("RectangleShape2D_rf2cd")
+
+[node name="StaticBody2D4" type="StaticBody2D" parent="." groups=["刚体"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D4"]
+position = Vector2(159, 109.5)
+shape = SubResource("RectangleShape2D_a814b")
+one_way_collision_margin = 0.0
+
+[node name="StaticBody2D5" type="StaticBody2D" parent="." groups=["刚体"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D5"]
+position = Vector2(725.25, 440)
+shape = SubResource("RectangleShape2D_5crlr")
+
+[node name="StaticBody2D7" type="StaticBody2D" parent="." groups=["刚体"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D7"]
+position = Vector2(841, 111.188)
+shape = SubResource("RectangleShape2D_torvr")
+
+[node name="StaticBody2D8" type="StaticBody2D" parent="." groups=["刚体"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D8"]
+position = Vector2(1522, 333)
+shape = SubResource("RectangleShape2D_fyaqb")
+
+[node name="Area2D2" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D2"]
+position = Vector2(3.5, 162.5)
+shape = SubResource("RectangleShape2D_p5x2j")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(500, 338)
+shape = SubResource("RectangleShape2D_8xkvn")
+
+[node name="Area2D3" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D3"]
+position = Vector2(998, 167.75)
+shape = SubResource("RectangleShape2D_p5x2j")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="UITimerLabel" type="Label" parent="CanvasLayer"]
+offset_right = 40.0
+offset_bottom = 23.0
+label_settings = SubResource("LabelSettings_5crlr")
+
+[node name="UIGameOverLabel" type="Label" parent="CanvasLayer"]
+offset_left = -2.0
+offset_top = 642.0
+offset_right = 998.0
+offset_bottom = 1242.0
+label_settings = SubResource("LabelSettings_hbc2u")
+horizontal_alignment = 1
+
+[node name="LineEdit" type="LineEdit" parent="CanvasLayer"]
+visible = false
+offset_left = 384.0
+offset_top = 201.0
+offset_right = 640.0
+offset_bottom = 255.0
+placeholder_text = "Enter your name"
+
+[node name="Restart" type="Button" parent="CanvasLayer"]
+visible = false
+offset_left = 360.0
+offset_top = 472.0
+offset_right = 496.0
+offset_bottom = 528.0
+text = "Restart"
+
+[node name="ItemList" type="ItemList" parent="CanvasLayer"]
+visible = false
+offset_left = 360.0
+offset_top = 136.0
+offset_right = 664.0
+offset_bottom = 456.0
+script = ExtResource("6_ga2ru")
+
+[node name="Enter" type="Button" parent="CanvasLayer"]
+visible = false
+offset_left = 384.0
+offset_top = 278.0
+offset_right = 640.0
+offset_bottom = 328.0
+text = "Enter"
+
+[node name="Refresh" type="Button" parent="CanvasLayer"]
+visible = false
+offset_left = 528.0
+offset_top = 472.0
+offset_right = 664.0
+offset_bottom = 528.0
+text = "Refresh"
+
+[node name="Label" type="Label" parent="CanvasLayer"]
+visible = false
+offset_left = 360.0
+offset_top = 104.0
+offset_right = 664.0
+offset_bottom = 128.0
+text = "Loading..."
+label_settings = SubResource("LabelSettings_torvr")
+horizontal_alignment = 1
+
+[node name="Restart2" type="Button" parent="CanvasLayer"]
+offset_left = 864.0
+offset_right = 1000.0
+offset_bottom = 56.0
+text = "Restart"
+
+[connection signal="pressed" from="CanvasLayer/Restart" to="." method="_on_button_2_pressed"]
+[connection signal="pressed" from="CanvasLayer/Enter" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/Refresh" to="." method="_on_refresh_pressed"]
+[connection signal="pressed" from="CanvasLayer/Restart2" to="." method="_on_button_2_pressed"]

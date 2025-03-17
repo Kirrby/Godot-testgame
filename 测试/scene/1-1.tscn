@@ -10,12 +10,12 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_1n5xk"]
 shader = ExtResource("2_nqw5g")
-shader_parameter/cells = 15
+shader_parameter/cells = 50
 shader_parameter/border = 0.0
 shader_parameter/color_speed = 0.1
 shader_parameter/pattern_seed = 0.0
 shader_parameter/animated_cells = true
-shader_parameter/color_cycling = false
+shader_parameter/color_cycling = true
 
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_1305s"]
 b = Vector2(0, 600)
@@ -67,6 +67,7 @@ font_color = Color(1, 0.470588, 0.419608, 1)
 script = ExtResource("1_30lgk")
 
 [node name="ColorRect" type="ColorRect" parent="."]
+visible = false
 material = SubResource("ShaderMaterial_1n5xk")
 offset_right = 1000.0
 offset_bottom = 600.0
