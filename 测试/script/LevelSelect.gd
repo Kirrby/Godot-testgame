@@ -254,6 +254,7 @@ func _on_chapter_selected(index: int):
 
 # 修改后的_update_levels方法
 func _update_levels():
+	level_scroll.scroll_horizontal = 0  # 新增代码：强制归零滚动条
 	for child in level_container.get_children():
 		child.queue_free()
 	

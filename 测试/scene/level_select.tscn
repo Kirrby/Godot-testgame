@@ -50,3 +50,16 @@ vertical_scroll_mode = 0
 layout_mode = 2
 theme_override_constants/separation = 40
 alignment = 1
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 0
+offset_right = 64.0
+offset_bottom = 56.0
+text = "返回"
+
+[node name="Button2" type="Button" parent="."]
+layout_mode = 0
+offset_left = 72.0
+offset_right = 136.0
+offset_bottom = 56.0
+text = "选项"
