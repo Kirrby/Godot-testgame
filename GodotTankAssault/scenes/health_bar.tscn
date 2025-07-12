@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://bdm53j3elkhj7"]
+
+[node name="HealthBar" type="ProgressBar"]
+step = 10.0
+value = 100.0
+show_percentage = false

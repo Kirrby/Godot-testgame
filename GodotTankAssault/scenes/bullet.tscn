@@ -1,0 +1,37 @@
+[gd_scene load_steps=4 format=3 uid="uid://c6w8j1o7yq3f7"]
+
+[ext_resource type="Script" uid="uid://dn5427k6o3b" path="res://scripts/bullet.gd" id="1_bullet_script"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_mkf8s"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:visible")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mkf8s"]
+size = Vector2(8, 8)
+
+[node name="Bullet" type="Area2D"]
+collision_layer = 0
+monitorable = false
+script = ExtResource("1_bullet_script")
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+color = Color(1, 1, 0, 1)
+polygon = PackedVector2Array(-4, -4, 0, -4, 4, -4, 4, 4, 0, 4, -4, 4)
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_mkf8s")
+
+[node name="ActivationTimer" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_mkf8s")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="timeout" from="ActivationTimer" to="." method="_on_activation_timer_timeout"]

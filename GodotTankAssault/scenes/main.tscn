@@ -1,0 +1,24 @@
+[gd_scene load_steps=3 format=3 uid="uid://c1x2y304a5b6"]
+
+[ext_resource type="Script" uid="uid://bpd8hkp5cqa8u" path="res://scripts/main.gd" id="1_main"]
+[ext_resource type="PackedScene" uid="uid://byx18dsy6saen" path="res://scenes/hud.tscn" id="4_hud"]
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_main")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(576, 324)
+
+[node name="HUD" parent="." instance=ExtResource("4_hud")]
+
+[node name="RoundEndTimer" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("uid://b5w7p1yryq2g8")
+spawn_path = NodePath("../Players")
+
+[node name="Players" type="Node" parent="."]
+
+[connection signal="timeout" from="RoundEndTimer" to="." method="_on_round_end_timer_timeout"]

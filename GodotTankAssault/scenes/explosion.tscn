@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://d1e2x3p4l5o6"]
+
+[node name="Explosion" type="CPUParticles2D"]
+emitting = false
+amount = 50
+lifetime = 0.8
+one_shot = true
+explosiveness = 0.9
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 200.0
+initial_velocity_max = 300.0
+scale_amount_min = 5.0
+scale_amount_max = 10.0
+
+[node name="SelfDestructTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+autostart = true
+
+[node name="ExplosionSound" type="AudioStreamPlayer" parent="."]
+autoplay = true
+
+[connection signal="timeout" from="SelfDestructTimer" to="." method="queue_free"]

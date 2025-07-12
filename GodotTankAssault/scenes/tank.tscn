@@ -1,0 +1,46 @@
+[gd_scene load_steps=5 format=3 uid="uid://b5w7p1yryq2g8"]
+
+[ext_resource type="Script" uid="uid://c7dv8ibjhapf4" path="res://scripts/tank.gd" id="1_vtpb6"]
+[ext_resource type="PackedScene" uid="uid://bdm53j3elkhj7" path="res://scenes/health_bar.tscn" id="2_healthbar"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_n5s0s"]
+size = Vector2(40, 50)
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_c4xvs"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+
+[node name="Tank" type="CharacterBody2D"]
+script = ExtResource("1_vtpb6")
+metadata/_edit_horizontal_guides_ = [648.0]
+metadata/_edit_vertical_guides_ = [1152.0]
+
+[node name="Body" type="Polygon2D" parent="."]
+color = Color(0.278431, 0.580392, 0.231373, 1)
+polygon = PackedVector2Array(-20, -25, 20, -25, 20, 25, -20, 25)
+
+[node name="Turret" type="Polygon2D" parent="."]
+color = Color(1.05888e-06, 0.259026, 0.679084, 1)
+polygon = PackedVector2Array(-10, -14, -5, -14, -5, -25, 5, -25, 5, -14, 10, -14, 10, 20, -10, 20)
+
+[node name="Muzzle" type="Marker2D" parent="Turret"]
+position = Vector2(0, -32)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_n5s0s")
+
+[node name="HealthBar" parent="." instance=ExtResource("2_healthbar")]
+offset_left = -25.0
+offset_top = -40.0
+offset_right = 75.0
+offset_bottom = -36.0
+scale = Vector2(0.5, 0.5)
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_c4xvs")
+
+[node name="ShootSound" type="AudioStreamPlayer" parent="."]
