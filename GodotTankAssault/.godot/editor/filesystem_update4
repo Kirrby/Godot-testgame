@@ -1,0 +1,13 @@
+res://scenes/main.tscn
+res://scenes/hud.tscn
+res://scenes/explosion.tscn
+res://scenes/health_bar.tscn
+res://scenes/bullet.tscn
+res://scenes/network_ui.tscn
+res://scenes/tank.tscn
+res://scripts/tank.gd
+res://scripts/bullet.gd
+res://scripts/hud.gd
+res://scripts/main.gd
+res://scripts/NetworkManager.gd
+res://scripts/network_ui.gd

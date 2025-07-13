@@ -25,6 +25,9 @@ offset_bottom = 150.0
 grow_horizontal = 2
 grow_vertical = 2
 
+[node name="StatusLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+
 [node name="Label" type="Label" parent="VBoxContainer"]
 layout_mode = 2
 text = "Enter Host IP Address:"
@@ -34,6 +37,10 @@ layout_mode = 2
 text = "127.0.0.1"
 placeholder_text = "127.0.0.1"
 emoji_menu_enabled = false
+
+[node name="NicknameInput" type="LineEdit" parent="VBoxContainer"]
+layout_mode = 2
+placeholder_text = "请输入你的昵称"
 
 [node name="HostButton" type="Button" parent="VBoxContainer"]
 layout_mode = 2

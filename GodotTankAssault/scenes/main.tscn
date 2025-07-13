@@ -21,4 +21,7 @@ spawn_path = NodePath("../Players")
 
 [node name="Players" type="Node" parent="."]
 
+[node name="scoreupdate" type="MultiplayerSpawner" parent="."]
+spawn_path = NodePath("../HUD")
+
 [connection signal="timeout" from="RoundEndTimer" to="." method="_on_round_end_timer_timeout"]

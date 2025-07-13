@@ -3,45 +3,58 @@ extends Node2D
 const TANK_SCENE = preload("res://scenes/tank.tscn")
 const BULLET_SCENE = preload("res://scenes/bullet.tscn")
 
-@onready var round_end_timer = $RoundEndTimer
+var bullet_counter = 0
+
 @onready var hud = $HUD
 @onready var camera = $Camera2D
 var arena: TileMapLayer
 
 func _ready():
 	_create_map()
-	# If we are a client, after loading the scene, we tell the server we are ready.
-	if not multiplayer.is_server():
-		NetworkManager.client_ready_to_receive_players.rpc_id(1)
-	# The server spawns players for itself when it starts.
-	else:
-		NetworkManager.add_player(multiplayer.get_unique_id())
-
-
-@rpc("any_peer","call_local")
-func spawn_player(peer_id):
-	if get_node_or_null("Players/" + str(peer_id)):
-		print("Tank for peer", peer_id, "already exists. Skip.")
-		return
-	print("Spawning tank for peer:", peer_id)
-	var tank = TANK_SCENE.instantiate()
-	tank.name = str(peer_id)
-	tank.add_to_group("tanks")
 	if multiplayer.is_server():
-		tank.set_multiplayer_authority(peer_id)
+		print("[DEBUG] Main scene ready on SERVER.")
+		var my_id = multiplayer.get_unique_id()
+		var my_nickname = NetworkManager.my_nickname
+		NetworkManager.players[my_id] = {"nickname": my_nickname, "score": 0}
+		NetworkManager.scores_changed.emit()
+		spawn_player(my_id, my_nickname)
+	else:
+		print("[DEBUG] Main scene ready on CLIENT. Deferring registration call.")
+		_client_ready_to_register.call_deferred()
+
+func _client_ready_to_register():
+	print("[DEBUG] CLIENT sending registration RPC to NetworkManager on server...")
+	NetworkManager.register_player_rpc.rpc_id(1, NetworkManager.my_nickname)
+
+@rpc("any_peer", "call_local")
+func spawn_player(peer_id, nickname):
+	print("[DEBUG-MAIN] Received request to spawn player. Peer:", peer_id, "Nickname:", nickname)
+	if get_node_or_null("Players/" + str(peer_id)):
+		print("[DEBUG-MAIN] Player already exists. Aborting spawn.")
+		return
+	print("[DEBUG-MAIN] Spawning tank for peer:", peer_id, "(" + nickname + ")")
+	var tank = TANK_SCENE.instantiate()
+	tank.add_to_group("tanks")
+	tank.name = str(peer_id)
+	# tank.set_nickname(nickname) # You might need to add this function to your tank script
 	$Players.add_child(tank)
-	tank.position = Vector2(randi_range(100, 800), randi_range(100, 630))
+	tank.position = Vector2(randi_range(100, 800), randi_range(100, 600))
 
+@rpc("any_peer", "call_remote", "reliable")
+func request_shoot(shooter_id, bullet_position, bullet_velocity):
+	var caller_id = multiplayer.get_remote_sender_id()
+	if caller_id != 0 and caller_id != shooter_id:
+		print("Player ", caller_id, " tried to make player ", shooter_id, " shoot. Denied.")
+		return
+	
+	var bullet_name = "bullet_" + str(bullet_counter)
+	bullet_counter += 1
+	_spawn_bullet_on_all_peers.rpc(shooter_id, bullet_position, bullet_velocity, bullet_name)
 
-@rpc("any_peer", "reliable")
-func server_request_shoot(shooter_id, bullet_position, bullet_velocity):
-	# This function is called by a client, but runs on the server.
-	# The server then broadcasts the command to all peers to spawn the bullet.
-	broadcast_spawn_bullet.rpc(shooter_id, bullet_position, bullet_velocity)
-
-@rpc("any_peer","call_local","reliable")
-func broadcast_spawn_bullet(shooter_id, bullet_position, bullet_velocity):
+@rpc("any_peer", "call_local", "reliable")
+func _spawn_bullet_on_all_peers(shooter_id, bullet_position, bullet_velocity, bullet_name):
 	var bullet = BULLET_SCENE.instantiate()
+	bullet.name = bullet_name
 	bullet.position = bullet_position
 	bullet.init(shooter_id, bullet_velocity)
 	add_child(bullet)
@@ -52,15 +65,12 @@ func remove_player(peer_id):
 	if tank:
 		tank.queue_free()
 
-func _on_round_end_timer_timeout():
-	get_tree().reload_current_scene()
-
 @rpc("any_peer", "call_local")
 func spawn_explosion_rpc(position):
 	var explosion = preload("res://scenes/explosion.tscn").instantiate()
-	explosion.position = global_position
+	explosion.position = position
 	add_child(explosion)
-	#camera.shake()
+	explosion.emitting = true
 
 func _create_tileset_in_code() -> TileSet:
 	var new_tileset = TileSet.new()
@@ -142,22 +152,3 @@ func _create_map():
 			var tile_char = MAP_DATA[y][x]
 			if tile_char == "#":
 				arena.set_cell(Vector2i(x, y), wall_source_id, wall_atlas_coords)
-
-
-#func _create_map():
-	#arena = TileMapLayer.new()
-	#arena.tile_set = _create_tileset_in_code()
-	#arena.z_index = -1 # Draw behind tanks
-	#add_child(arena)
-#
-	#var map_width = 70
-	#var map_height = 40
-	#var wall_source_id = 0
-	#var wall_atlas_coords = Vector2i(0, 0)
-#
-	#for x in range(map_width):
-		#arena.set_cell(Vector2i(x, 0), wall_source_id, wall_atlas_coords)
-		#arena.set_cell(Vector2i(x, map_height - 1), wall_source_id, wall_atlas_coords)
-	#for y in range(map_height):
-		#arena.set_cell(Vector2i(0, y), wall_source_id, wall_atlas_coords)
-		#arena.set_cell(Vector2i(map_width - 1, y), wall_source_id, wall_atlas_coords)

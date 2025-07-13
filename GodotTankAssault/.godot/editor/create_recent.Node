@@ -1,4 +1,7 @@
-Node
+Label
+LineEdit
+MultiplayerSynchronizer
 MultiplayerSpawner
+Node
 CollisionShape2D
 CollisionPolygon2D

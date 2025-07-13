@@ -1,6 +1,11 @@
-[gd_scene load_steps=2 format=3 uid="uid://byx18dsy6saen"]
+[gd_scene load_steps=3 format=3 uid="uid://byx18dsy6saen"]
 
 [ext_resource type="Script" uid="uid://bfiejtfa1n6an" path="res://scripts/hud.gd" id="1_hud"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_ahhtf"]
+properties/0/path = NodePath("ScoresLabel:text")
+properties/0/spawn = true
+properties/0/replication_mode = 1
 
 [node name="HUD" type="Control"]
 layout_mode = 3
@@ -14,11 +19,12 @@ script = ExtResource("1_hud")
 
 [node name="ScoresLabel" type="Label" parent="."]
 layout_mode = 0
-offset_left = 10.0
-offset_top = 10.0
-offset_right = 200.0
-offset_bottom = 100.0
+offset_left = 960.0
+offset_top = 32.0
+offset_right = 1150.0
+offset_bottom = 648.0
 text = "Scores:"
+autowrap_mode = 3
 
 [node name="GameStatusLabel" type="Label" parent="."]
 layout_mode = 1
@@ -32,3 +38,12 @@ grow_vertical = 2
 text = "Waiting for players..."
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="PingLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 1000.0
+offset_right = 1152.0
+offset_bottom = 24.0
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_ahhtf")
