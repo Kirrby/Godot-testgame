@@ -1,8 +1,12 @@
 extends Area2D
 
+const DAMAGE = 10
+const MAX_BOUNCES = 5
+const LIFETIME = 3.0
+
 var shooter_id: int
 var velocity = Vector2.ZERO
-var bounces_left = 5
+var bounces_left = MAX_BOUNCES
 var lifetime_timer: Timer
 
 func _ready():

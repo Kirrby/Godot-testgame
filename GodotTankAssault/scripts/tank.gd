@@ -7,10 +7,13 @@ extends CharacterBody2D
 @export var max_health: int = 100
 @export var health: int = max_health
 
+var nickname: String = ""
+
 @onready var turret = $Turret
 @onready var muzzle = $Turret/Muzzle
 @onready var health_bar = $HealthBar
 @onready var body = $Body
+@onready var name_bar: Label = $NameBar
 
 var shoot_cooldown: Timer
 var original_body_color
@@ -26,15 +29,24 @@ func _ready():
 	shoot_cooldown.wait_time = 0.5
 	shoot_cooldown.one_shot = true
 	add_child(shoot_cooldown)
+	name_bar.text = nickname
+	
+	# Detach UI from parent's rotation
+	health_bar.top_level = true
+	name_bar.top_level = true
 
 func _enter_tree() -> void:
 	print("[DEBUG-TANK] Tank node with name '%s' entered the scene tree." % name)
 	set_multiplayer_authority(name.to_int())
 
 func _physics_process(delta):
+	# Update UI position for all tanks on all clients
+	health_bar.global_position = global_position + Vector2(-25,-40)
+	name_bar.global_position = global_position + Vector2(-20,-60)
+	
 	if not is_multiplayer_authority():
 		return
-
+	
 	var turret_direction = Input.get_axis("turret_left", "turret_right")
 	var turn_direction = Input.get_axis("turn_left", "turn_right")
 	var move_direction = Input.get_axis("move_backward", "move_forward")
@@ -79,11 +91,13 @@ func take_damage_rpc(damage: int, attacker_id: int):
 func update_health_bar():
 	health_bar.value = health
 
+const RESPAWN_TIME = 3.0
+
 @rpc("any_peer", "call_local")
 func destroy_tank_rpc():
 	hide()
 	$CollisionShape2D.set_deferred("disabled", true)
-	var respawn_timer = get_tree().create_timer(3.0)
+	var respawn_timer = get_tree().create_timer(RESPAWN_TIME)
 	respawn_timer.timeout.connect(respawn_rpc)
 
 @rpc("any_peer", "call_local")

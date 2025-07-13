@@ -3,7 +3,7 @@ extends Node
 signal scores_changed
 signal game_found(host_ip)
 
-const PORT = 9999
+const SERVER_PORT = 9999
 const BROADCAST_PORT = 9998
 const BROADCAST_INTERVAL = 1.0
 const BROADCAST_MSG = "tank_assault_game"
@@ -39,7 +39,7 @@ func _process(_delta):
 func create_server(nickname: String):
 	my_nickname = nickname
 	peer = ENetMultiplayerPeer.new()
-	var error = peer.create_server(PORT)
+	var error = peer.create_server(SERVER_PORT)
 	if error != OK:
 		print("Cannot create server.")
 		return
@@ -51,7 +51,7 @@ func create_server(nickname: String):
 func connect_to_server(ip_address: String, nickname: String):
 	my_nickname = nickname
 	peer = ENetMultiplayerPeer.new()
-	peer.create_client(ip_address, PORT)
+	peer.create_client(ip_address, SERVER_PORT)
 	multiplayer.set_multiplayer_peer(peer)
 
 # --- Player and Score Management ---

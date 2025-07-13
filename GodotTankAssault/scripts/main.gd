@@ -5,6 +5,9 @@ const BULLET_SCENE = preload("res://scenes/bullet.tscn")
 
 var bullet_counter = 0
 
+const MAP_BOUNDS_X = Vector2(100, 800)
+const MAP_BOUNDS_Y = Vector2(100, 600)
+
 @onready var hud = $HUD
 @onready var camera = $Camera2D
 var arena: TileMapLayer
@@ -36,7 +39,7 @@ func spawn_player(peer_id, nickname):
 	var tank = TANK_SCENE.instantiate()
 	tank.add_to_group("tanks")
 	tank.name = str(peer_id)
-	# tank.set_nickname(nickname) # You might need to add this function to your tank script
+	tank.nickname = nickname
 	$Players.add_child(tank)
 	tank.position = Vector2(randi_range(100, 800), randi_range(100, 600))
 
