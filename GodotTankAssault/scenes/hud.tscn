@@ -20,7 +20,7 @@ script = ExtResource("1_hud")
 [node name="ScoresLabel" type="Label" parent="."]
 layout_mode = 0
 offset_left = 960.0
-offset_top = 32.0
+offset_top = 64.0
 offset_right = 1150.0
 offset_bottom = 648.0
 text = "Scores:"
@@ -42,8 +42,9 @@ vertical_alignment = 1
 [node name="PingLabel" type="Label" parent="."]
 layout_mode = 0
 offset_left = 1000.0
+offset_top = 40.0
 offset_right = 1152.0
-offset_bottom = 24.0
+offset_bottom = 64.0
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_ahhtf")

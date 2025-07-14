@@ -1,7 +1,9 @@
+Button
+Sprite2D
+CollisionPolygon2D
+Node
 Label
 LineEdit
 MultiplayerSynchronizer
 MultiplayerSpawner
-Node
 CollisionShape2D
-CollisionPolygon2D

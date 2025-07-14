@@ -6,8 +6,7 @@ res://scenes/bullet.tscn
 res://scenes/network_ui.tscn
 res://scenes/tank.tscn
 res://scripts/tank.gd
-res://scripts/bullet.gd
-res://scripts/hud.gd
 res://scripts/main.gd
-res://scripts/NetworkManager.gd
-res://scripts/network_ui.gd
+res://scenes/ammo_ui.tscn
+res://scripts/ammo_ui.gd
+res://tiles/wall_tileset.tres

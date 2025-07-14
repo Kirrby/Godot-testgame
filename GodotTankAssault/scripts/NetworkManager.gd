@@ -42,11 +42,16 @@ func create_server(nickname: String):
 	var error = peer.create_server(SERVER_PORT)
 	if error != OK:
 		print("Cannot create server.")
-		return
+		return false
 	multiplayer.set_multiplayer_peer(peer)
 	print("Server created. Waiting for players...")
+	
+	# Register the host player
+	handle_player_registration(1, my_nickname)
+
 	get_tree().change_scene_to_file("res://scenes/main.tscn")
 	_start_broadcasting()
+	return true
 
 func connect_to_server(ip_address: String, nickname: String):
 	my_nickname = nickname

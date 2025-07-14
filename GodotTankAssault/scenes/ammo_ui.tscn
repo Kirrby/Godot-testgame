@@ -1,0 +1,70 @@
+[gd_scene load_steps=7 format=3 uid="uid://brgn8l3ujnhcx"]
+
+[ext_resource type="Script" uid="uid://dog4dfdf63r77" path="res://scripts/ammo_ui.gd" id="1_abcde"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_mn4om"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_2rc0n"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_qhfg7"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_w66j0"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_lng6j"]
+
+[node name="AmmoUI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_abcde")
+
+[node name="BulletContainer" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 936.0
+offset_top = 600.0
+offset_right = 1152.0
+offset_bottom = 624.0
+alignment = 1
+
+[node name="Bullet1" type="TextureRect" parent="BulletContainer"]
+modulate = Color(1, 1, 0, 1)
+layout_mode = 2
+texture = SubResource("CanvasTexture_mn4om")
+expand_mode = 2
+
+[node name="Bullet2" type="TextureRect" parent="BulletContainer"]
+modulate = Color(1, 1, 0, 1)
+layout_mode = 2
+texture = SubResource("CanvasTexture_2rc0n")
+expand_mode = 2
+
+[node name="Bullet3" type="TextureRect" parent="BulletContainer"]
+modulate = Color(1, 1, 0, 1)
+layout_mode = 2
+texture = SubResource("CanvasTexture_qhfg7")
+expand_mode = 2
+
+[node name="Bullet4" type="TextureRect" parent="BulletContainer"]
+modulate = Color(1, 1, 0, 1)
+layout_mode = 2
+texture = SubResource("CanvasTexture_w66j0")
+expand_mode = 2
+
+[node name="Bullet5" type="TextureRect" parent="BulletContainer"]
+modulate = Color(1, 1, 0, 1)
+layout_mode = 2
+texture = SubResource("CanvasTexture_lng6j")
+expand_mode = 2
+
+[node name="ReloadingLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 952.0
+offset_top = 568.0
+offset_right = 1152.0
+offset_bottom = 608.0
+text = "换弹中..."
+horizontal_alignment = 1
+vertical_alignment = 1

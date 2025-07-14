@@ -1,8 +1,10 @@
-res://scenes/bullet.tscn::c87cd1778cba6401defb2792b2dbec51::1752409366::res://.godot/exported/133200997/export-6d8e6ff1e6f20a36e0402d27c623c86c-bullet.scn
-res://scenes/explosion.tscn::359e0f474c9d7e97a4b3edb5295708cb::1752409366::res://.godot/exported/133200997/export-19462905a0f3b4b39165a3350317f22c-explosion.scn
-res://scenes/health_bar.tscn::78df2d90e9085b51b7d33cb09c9f97bc::1752409366::res://.godot/exported/133200997/export-547b0b758c2a105ac11ae0ed54fbe452-health_bar.scn
-res://scenes/hud.tscn::b7e884be26868a42fb1946f4734d6e17::1752409366::res://.godot/exported/133200997/export-38bf74ff262409a94a41206b2b776d33-hud.scn
-res://scenes/main.tscn::babadf165cd6ec5f8a38c418579b632c::1752409366::res://.godot/exported/133200997/export-3ad5c15c4f3250da0cc7c1af1770d85f-main.scn
-res://scenes/network_ui.tscn::63d9e3f38d6695410ab6f9bb5f970ef3::1752409366::res://.godot/exported/133200997/export-46a946ac63a7ffda6805488e071d74ad-network_ui.scn
-res://scenes/tank.tscn::e41cb14142747b70b120d409a418cd86::1752409366::res://.godot/exported/133200997/export-4194426a9d5e1d9f821ceabbd2e67492-tank.scn
+res://scenes/bullet.tscn::c87cd1778cba6401defb2792b2dbec51::1752497370::res://.godot/exported/133200997/export-6d8e6ff1e6f20a36e0402d27c623c86c-bullet.scn
+res://scenes/explosion.tscn::359e0f474c9d7e97a4b3edb5295708cb::1752497370::res://.godot/exported/133200997/export-19462905a0f3b4b39165a3350317f22c-explosion.scn
+res://scenes/health_bar.tscn::78df2d90e9085b51b7d33cb09c9f97bc::1752497370::res://.godot/exported/133200997/export-547b0b758c2a105ac11ae0ed54fbe452-health_bar.scn
+res://scenes/hud.tscn::fbfe0882d3e690f2d7751b6322346fa2::1752497370::res://.godot/exported/133200997/export-38bf74ff262409a94a41206b2b776d33-hud.scn
+res://scenes/main.tscn::21e375fe206ab72273905accab75f864::1752497370::res://.godot/exported/133200997/export-3ad5c15c4f3250da0cc7c1af1770d85f-main.scn
+res://scenes/network_ui.tscn::63d9e3f38d6695410ab6f9bb5f970ef3::1752497370::res://.godot/exported/133200997/export-46a946ac63a7ffda6805488e071d74ad-network_ui.scn
+res://scenes/tank.tscn::e41cb14142747b70b120d409a418cd86::1752497370::res://.godot/exported/133200997/export-4194426a9d5e1d9f821ceabbd2e67492-tank.scn
 res://tiles/arena_tileset.tres::e51796820074fd45b5279290e09f7820::1752116780::res://.godot/exported/133200997/export-ffd53f100e5bbd41f6daecdbfdfa1c94-arena_tileset.res
+res://scenes/ammo_ui.tscn::439351ecd683087e5cab6e07427e86e3::1752497370::res://.godot/exported/133200997/export-10070975bc759ed1193800e2bd42debe-ammo_ui.scn
+res://tiles/wall_tileset.tres::7f05eac4992ab0cfdcc106959d62e25c::1752496254::res://.godot/exported/133200997/export-f877a686bfd332ea141c3dd833c34e8d-wall_tileset.res

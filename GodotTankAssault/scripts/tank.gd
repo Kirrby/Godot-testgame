@@ -1,5 +1,8 @@
 extends CharacterBody2D
 
+signal ammo_changed(ammo_count)
+signal reloading_status_changed(is_reloading)
+
 @export var move_speed: float = 200.0
 @export var turn_speed: float = 2.5
 @export var turret_turn_speed: float = 3.0
@@ -15,6 +18,7 @@ var nickname: String = ""
 @onready var body = $Body
 @onready var name_bar: Label = $NameBar
 
+var _bullets_fired_count: int = 0
 var shoot_cooldown: Timer
 var original_body_color
 var original_turret_color
@@ -30,6 +34,7 @@ func _ready():
 	shoot_cooldown.one_shot = true
 	add_child(shoot_cooldown)
 	name_bar.text = nickname
+	shoot_cooldown.timeout.connect(_on_shoot_cooldown_timeout)
 	
 	# Detach UI from parent's rotation
 	health_bar.top_level = true
@@ -41,8 +46,8 @@ func _enter_tree() -> void:
 
 func _physics_process(delta):
 	# Update UI position for all tanks on all clients
-	health_bar.global_position = global_position + Vector2(-25,-40)
-	name_bar.global_position = global_position + Vector2(-20,-60)
+	health_bar.global_position = global_position + Vector2(-health_bar.size.x / 2 + 25, -35)
+	name_bar.global_position = global_position + Vector2(-name_bar.size.x / 2, -60)
 	
 	if not is_multiplayer_authority():
 		return
@@ -57,6 +62,15 @@ func _physics_process(delta):
 	move_and_slide()
 
 	if Input.is_action_just_pressed("shoot") and shoot_cooldown.is_stopped():
+		_bullets_fired_count += 1
+		emit_signal("ammo_changed", 5 - _bullets_fired_count)
+		if _bullets_fired_count >= 5:
+			shoot_cooldown.wait_time = 2.0  # 换弹冷却时间
+			_bullets_fired_count = 0
+			emit_signal("reloading_status_changed", true)
+		else:
+			shoot_cooldown.wait_time = 0.1 # 正常射击冷却时间
+		shoot_cooldown.start()
 		var main_node = get_tree().root.get_node("Main")
 		var bullet_velocity = Vector2.UP.rotated(turret.global_rotation) * bullet_speed
 		var shooter_id = multiplayer.get_unique_id()
@@ -68,6 +82,11 @@ func _physics_process(delta):
 			main_node.request_shoot.rpc_id(1, shooter_id, bullet_position, bullet_velocity)
 		
 		play_shoot_sound_rpc.rpc()
+
+func _on_shoot_cooldown_timeout():
+	if _bullets_fired_count == 0:
+		emit_signal("reloading_status_changed", false)
+		emit_signal("ammo_changed", 5)
 
 @rpc("any_peer", "call_local")
 func play_shoot_sound_rpc():

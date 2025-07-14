@@ -2,6 +2,7 @@ extends Node2D
 
 const TANK_SCENE = preload("res://scenes/tank.tscn")
 const BULLET_SCENE = preload("res://scenes/bullet.tscn")
+const AMMO_UI_SCENE = preload("res://scenes/ammo_ui.tscn")
 
 var bullet_counter = 0
 
@@ -10,10 +11,9 @@ const MAP_BOUNDS_Y = Vector2(100, 600)
 
 @onready var hud = $HUD
 @onready var camera = $Camera2D
-var arena: TileMapLayer
+@onready var arena = $TileMapLayer
 
 func _ready():
-	_create_map()
 	if multiplayer.is_server():
 		print("[DEBUG] Main scene ready on SERVER.")
 		var my_id = multiplayer.get_unique_id()
@@ -42,6 +42,12 @@ func spawn_player(peer_id, nickname):
 	tank.nickname = nickname
 	$Players.add_child(tank)
 	tank.position = Vector2(randi_range(100, 800), randi_range(100, 600))
+
+	if peer_id == multiplayer.get_unique_id():
+		var ammo_ui = AMMO_UI_SCENE.instantiate()
+		hud.add_child(ammo_ui)
+		tank.ammo_changed.connect(ammo_ui._on_ammo_changed)
+		tank.reloading_status_changed.connect(ammo_ui._on_reloading_status_changed)
 
 @rpc("any_peer", "call_remote", "reliable")
 func request_shoot(shooter_id, bullet_position, bullet_velocity):
@@ -74,84 +80,3 @@ func spawn_explosion_rpc(position):
 	explosion.position = position
 	add_child(explosion)
 	explosion.emitting = true
-
-func _create_tileset_in_code() -> TileSet:
-	var new_tileset = TileSet.new()
-	var source = TileSetAtlasSource.new()
-	new_tileset.add_source(source, 0)
-	new_tileset.add_physics_layer()
-	new_tileset.set_physics_layer_collision_layer(0, 1)
-
-	var placeholder_tex = PlaceholderTexture2D.new()
-	placeholder_tex.size = Vector2i(16, 16)
-	source.texture = placeholder_tex
-	source.texture_region_size = Vector2i(16, 16)
-	
-	source.create_tile(Vector2i.ZERO)
-	
-	var tile_data = source.get_tile_data(Vector2i.ZERO, 0)
-	var polygon = PackedVector2Array([
-		Vector2(-8, -8), Vector2(8, -8), 
-		Vector2(8, 8), Vector2(-8, 8)
-	])
-	tile_data.set_collision_polygons_count(0, 1)
-	tile_data.set_collision_polygon_points(0, 0, polygon)
-	
-	return new_tileset
-
-const MAP_DATA = [
-"############################################################",
-"#............#.........................#...................#",
-"#............#.........####............#...................#",
-"#............#.................................####........#",
-"#............................#####.........................#",
-"#....####..................................................#",
-"#.....................................###..................#",
-"#.................###......................##..............#",
-"#....####...........................................####...#",
-"#..........................................................#",
-"#.......####.......................####....................#",
-"#..........................................................#",
-"#.............................##...........................#",
-"#............####..........................................#",
-"#..........................................####............#",
-"#..........................................................#",
-"#.........................#.........................#......#",
-"#.........................#.........................#......#",
-"#..........................................................#",
-"#.............#####...........................#####........#",
-"#..........................................................#",
-"#.....######........................######.................#",
-"#..........................................................#",
-"#..........................................................#",
-"#....######.............####.................#####.........#",
-"#..........................................................#",
-"#...................##..................##.................#",
-"#.........#####............................................#",
-"#...............................................#####......#",
-"#....................#####.................#####...........#",
-"#..........................................................#",
-"#..######.......................................######.....#",
-"#..........................................................#",
-"#..............####.......................####.............#",
-"#..........................................................#",
-"#.................####...........####......................#",
-"#..........................................................#",
-"#..........................................................#",
-"#..........######............................######........#",
-"############################################################"
-]
-
-func _create_map():
-	arena = TileMapLayer.new()
-	arena.tile_set = _create_tileset_in_code()
-	add_child(arena)
-
-	var wall_source_id = 0
-	var wall_atlas_coords = Vector2i(0, 0)
-
-	for y in range(len(MAP_DATA)):
-		for x in range(MAP_DATA[y].length()):
-			var tile_char = MAP_DATA[y][x]
-			if tile_char == "#":
-				arena.set_cell(Vector2i(x, y), wall_source_id, wall_atlas_coords)
