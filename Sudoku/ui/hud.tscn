@@ -1,0 +1,56 @@
+[gd_scene load_steps=2 format=3 uid="uid://dohvj5y5xqy3c"]
+
+[ext_resource type="Script" uid="uid://c4sg5emibsbb5" path="res://ui/hud.gd" id="1_fghij"]
+
+[node name="HUD" type="HBoxContainer"]
+size_flags_vertical = 3
+alignment = 1
+script = ExtResource("1_fghij")
+
+[node name="NewGameButton" type="Button" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.5
+text = "新游戏"
+
+[node name="DifficultyButton" type="OptionButton" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+selected = 0
+item_count = 3
+popup/item_0/text = "简单"
+popup/item_0/id = 0
+popup/item_1/text = "中等"
+popup/item_1/id = 1
+popup/item_2/text = "困难"
+popup/item_2/id = 2
+
+[node name="UndoButton" type="Button" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "撤销"
+
+[node name="RedoButton" type="Button" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "重做"
+
+[node name="CheckButton" type="Button" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "检查"
+
+[node name="HintButton" type="Button" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "提示"
+
+[node name="TimerLabel" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.75
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 48
+text = "00:00"
+horizontal_alignment = 1
+vertical_alignment = 1

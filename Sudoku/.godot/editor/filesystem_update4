@@ -1,0 +1,4 @@
+res://scenes/main.tscn
+res://assets/default.tres
+res://scenes/sudoku_grid.tscn
+res://ui/hud.tscn
